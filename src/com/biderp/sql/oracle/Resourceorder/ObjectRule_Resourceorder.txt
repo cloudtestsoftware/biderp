@@ -1,0 +1,116 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Resourceorder
+//Attribute Name:Resourceorder Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Resourceorder Rule
+		TableName=Resourceorder
+		EffectedTable=TaskResource
+		Description=Calling Upadte and Insert Rule for object Resourceorder
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Resourceorder
+//Name:Call Insert_Resourceorder procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Resourceorder procedure
+		TableName=Resourceorder
+		Description=Call Insert_Resourceorder procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Resourceorder(@objid)
+		MssqlQuery=exec Insert_Resourceorder @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child TaskResource
+		TableName=TaskResource
+		Description=Select -ve objid for child TaskResource
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $TaskResourceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid TaskResourceid from table_TaskResource where objid like \'-%\' and TaskResource2Resourceorder=@objid
+		MssqlQuery=select objid, name ,objid TaskResourceid from table_TaskResource where objid like \'-%\' and TaskResource2Resourceorder=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child TaskResource
+		TableName=TaskResource
+		Description=Update -ve objid for child TaskResource
+		StepNo=3
+		Input=@objid @name @TaskResourceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_TaskResource set objid=@objid where objid=@TaskResourceid and name=@name
+		MssqlQuery=update table_TaskResource set objid=@objid where objid=@TaskResourceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PoInvoice
+		TableName=PoInvoice
+		Description=Select -ve objid for child PoInvoice
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PoInvoiceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PoInvoiceid from table_PoInvoice where objid like \'-%\' and PoInvoice2Resourceorder=@objid
+		MssqlQuery=select objid, name ,objid PoInvoiceid from table_PoInvoice where objid like \'-%\' and PoInvoice2Resourceorder=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PoInvoice
+		TableName=PoInvoice
+		Description=Update -ve objid for child PoInvoice
+		StepNo=5
+		Input=@objid @name @PoInvoiceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PoInvoice set objid=@objid where objid=@PoInvoiceid and name=@name
+		MssqlQuery=update table_PoInvoice set objid=@objid where objid=@PoInvoiceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Resourceorder procedure
+		TableName=Resourceorder
+		Description=Call Update_Resourceorder procedure
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Resourceorder(@objid)
+		MssqlQuery=exec Update_Resourceorder @objid
+		Status=0
+	</ActionQuery>

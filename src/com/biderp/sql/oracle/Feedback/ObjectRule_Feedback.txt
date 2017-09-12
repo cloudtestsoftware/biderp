@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Feedback
+//Attribute Name:Feedback Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Feedback Rule
+		TableName=Feedback
+		EffectedTable=FeedNote
+		Description=Calling Upadte and Insert Rule for object Feedback
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Feedback
+//Name:Call Insert_Feedback procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Feedback procedure
+		TableName=Feedback
+		Description=Call Insert_Feedback procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Feedback(@objid)
+		MssqlQuery=exec Insert_Feedback @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child FeedNote
+		TableName=FeedNote
+		Description=Select -ve objid for child FeedNote
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $FeedNoteid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid FeedNoteid from table_FeedNote where objid like \'-%\' and FeedNote2Feedback=@objid
+		MssqlQuery=select objid, name ,objid FeedNoteid from table_FeedNote where objid like \'-%\' and FeedNote2Feedback=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child FeedNote
+		TableName=FeedNote
+		Description=Update -ve objid for child FeedNote
+		StepNo=3
+		Input=@objid @name @FeedNoteid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_FeedNote set objid=@objid where objid=@FeedNoteid and name=@name
+		MssqlQuery=update table_FeedNote set objid=@objid where objid=@FeedNoteid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Feedback procedure
+		TableName=Feedback
+		Description=Call Update_Feedback procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Feedback(@objid)
+		MssqlQuery=exec Update_Feedback @objid
+		Status=0
+	</ActionQuery>

@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Partlist
+//Attribute Name:Partlist Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Partlist Rule
+		TableName=Partlist
+		EffectedTable=PartPrice
+		Description=Calling Upadte and Insert Rule for object Partlist
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Partlist
+//Name:Call Insert_Partlist procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Partlist procedure
+		TableName=Partlist
+		Description=Call Insert_Partlist procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Partlist(@objid)
+		MssqlQuery=exec Insert_Partlist @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child PartPrice
+		TableName=PartPrice
+		Description=Select -ve objid for child PartPrice
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PartPriceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PartPriceid from table_PartPrice where objid like \'-%\' and PartPrice2Partlist=@objid
+		MssqlQuery=select objid, name ,objid PartPriceid from table_PartPrice where objid like \'-%\' and PartPrice2Partlist=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PartPrice
+		TableName=PartPrice
+		Description=Update -ve objid for child PartPrice
+		StepNo=3
+		Input=@objid @name @PartPriceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PartPrice set objid=@objid where objid=@PartPriceid and name=@name
+		MssqlQuery=update table_PartPrice set objid=@objid where objid=@PartPriceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Partlist procedure
+		TableName=Partlist
+		Description=Call Update_Partlist procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Partlist(@objid)
+		MssqlQuery=exec Update_Partlist @objid
+		Status=0
+	</ActionQuery>

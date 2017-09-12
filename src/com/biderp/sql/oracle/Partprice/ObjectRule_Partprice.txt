@@ -1,0 +1,147 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Partprice
+//Attribute Name:Partprice Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Partprice Rule
+		TableName=Partprice
+		EffectedTable=OrderPending
+		Description=Calling Upadte and Insert Rule for object Partprice
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Partprice
+//Name:Call Insert_Partprice procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Partprice procedure
+		TableName=Partprice
+		Description=Call Insert_Partprice procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Partprice(@objid)
+		MssqlQuery=exec Insert_Partprice @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child OrderPending
+		TableName=OrderPending
+		Description=Select -ve objid for child OrderPending
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $OrderPendingid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid OrderPendingid from table_OrderPending where objid like \'-%\' and OrderPending2Partprice=@objid
+		MssqlQuery=select objid, name ,objid OrderPendingid from table_OrderPending where objid like \'-%\' and OrderPending2Partprice=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child OrderPending
+		TableName=OrderPending
+		Description=Update -ve objid for child OrderPending
+		StepNo=3
+		Input=@objid @name @OrderPendingid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_OrderPending set objid=@objid where objid=@OrderPendingid and name=@name
+		MssqlQuery=update table_OrderPending set objid=@objid where objid=@OrderPendingid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PartCount
+		TableName=PartCount
+		Description=Select -ve objid for child PartCount
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PartCountid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PartCountid from table_PartCount where objid like \'-%\' and PartCount2Partprice=@objid
+		MssqlQuery=select objid, name ,objid PartCountid from table_PartCount where objid like \'-%\' and PartCount2Partprice=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PartCount
+		TableName=PartCount
+		Description=Update -ve objid for child PartCount
+		StepNo=5
+		Input=@objid @name @PartCountid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PartCount set objid=@objid where objid=@PartCountid and name=@name
+		MssqlQuery=update table_PartCount set objid=@objid where objid=@PartCountid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child QRInfo
+		TableName=QRInfo
+		Description=Select -ve objid for child QRInfo
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $QRInfoid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid QRInfoid from table_QRInfo where objid like \'-%\' and QRInfo2Partprice=@objid
+		MssqlQuery=select objid, name ,objid QRInfoid from table_QRInfo where objid like \'-%\' and QRInfo2Partprice=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child QRInfo
+		TableName=QRInfo
+		Description=Update -ve objid for child QRInfo
+		StepNo=7
+		Input=@objid @name @QRInfoid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_QRInfo set objid=@objid where objid=@QRInfoid and name=@name
+		MssqlQuery=update table_QRInfo set objid=@objid where objid=@QRInfoid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Partprice procedure
+		TableName=Partprice
+		Description=Call Update_Partprice procedure
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Partprice(@objid)
+		MssqlQuery=exec Update_Partprice @objid
+		Status=0
+	</ActionQuery>

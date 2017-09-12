@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Serviceresources
+//Attribute Name:Serviceresources Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Serviceresources Rule
+		TableName=Serviceresources
+		EffectedTable=Transaction
+		Description=Calling Upadte and Insert Rule for object Serviceresources
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Serviceresources
+//Name:Call Insert_Serviceresources procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Serviceresources procedure
+		TableName=Serviceresources
+		Description=Call Insert_Serviceresources procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Serviceresources(@objid)
+		MssqlQuery=exec Insert_Serviceresources @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Transaction
+		TableName=Transaction
+		Description=Select -ve objid for child Transaction
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Transactionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Serviceresources=@objid
+		MssqlQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Serviceresources=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Transaction
+		TableName=Transaction
+		Description=Update -ve objid for child Transaction
+		StepNo=3
+		Input=@objid @name @Transactionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		MssqlQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Serviceresources procedure
+		TableName=Serviceresources
+		Description=Call Update_Serviceresources procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Serviceresources(@objid)
+		MssqlQuery=exec Update_Serviceresources @objid
+		Status=0
+	</ActionQuery>

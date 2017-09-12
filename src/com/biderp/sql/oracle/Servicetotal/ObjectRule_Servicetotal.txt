@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Servicetotal
+//Attribute Name:Servicetotal Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Servicetotal Rule
+		TableName=Servicetotal
+		EffectedTable=Transaction
+		Description=Calling Upadte and Insert Rule for object Servicetotal
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Servicetotal
+//Name:Call Insert_Servicetotal procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Servicetotal procedure
+		TableName=Servicetotal
+		Description=Call Insert_Servicetotal procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Servicetotal(@objid)
+		MssqlQuery=exec Insert_Servicetotal @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Transaction
+		TableName=Transaction
+		Description=Select -ve objid for child Transaction
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Transactionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Servicetotal=@objid
+		MssqlQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Servicetotal=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Transaction
+		TableName=Transaction
+		Description=Update -ve objid for child Transaction
+		StepNo=3
+		Input=@objid @name @Transactionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		MssqlQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Servicetotal procedure
+		TableName=Servicetotal
+		Description=Call Update_Servicetotal procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Servicetotal(@objid)
+		MssqlQuery=exec Update_Servicetotal @objid
+		Status=0
+	</ActionQuery>

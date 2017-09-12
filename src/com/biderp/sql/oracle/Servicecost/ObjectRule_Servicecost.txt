@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Servicecost
+//Attribute Name:Servicecost Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Servicecost Rule
+		TableName=Servicecost
+		EffectedTable=Transaction
+		Description=Calling Upadte and Insert Rule for object Servicecost
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Servicecost
+//Name:Call Insert_Servicecost procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Servicecost procedure
+		TableName=Servicecost
+		Description=Call Insert_Servicecost procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Servicecost(@objid)
+		MssqlQuery=exec Insert_Servicecost @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Transaction
+		TableName=Transaction
+		Description=Select -ve objid for child Transaction
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Transactionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Servicecost=@objid
+		MssqlQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Servicecost=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Transaction
+		TableName=Transaction
+		Description=Update -ve objid for child Transaction
+		StepNo=3
+		Input=@objid @name @Transactionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		MssqlQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Servicecost procedure
+		TableName=Servicecost
+		Description=Call Update_Servicecost procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Servicecost(@objid)
+		MssqlQuery=exec Update_Servicecost @objid
+		Status=0
+	</ActionQuery>

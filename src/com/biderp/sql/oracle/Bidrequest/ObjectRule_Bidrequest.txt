@@ -1,0 +1,364 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Bidrequest
+//Attribute Name:Bidrequest Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Bidrequest Rule
+		TableName=Bidrequest
+		EffectedTable=General
+		Description=Calling Upadte and Insert Rule for object Bidrequest
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Bidrequest
+//Name:Call Insert_Bidrequest procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Bidrequest procedure
+		TableName=Bidrequest
+		Description=Call Insert_Bidrequest procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Bidrequest(@objid)
+		MssqlQuery=exec Insert_Bidrequest @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child General
+		TableName=General
+		Description=Select -ve objid for child General
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Generalid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Generalid from table_General where objid like \'-%\' and General2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid Generalid from table_General where objid like \'-%\' and General2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child General
+		TableName=General
+		Description=Update -ve objid for child General
+		StepNo=3
+		Input=@objid @name @Generalid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_General set objid=@objid where objid=@Generalid and name=@name
+		MssqlQuery=update table_General set objid=@objid where objid=@Generalid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Invitation
+		TableName=Invitation
+		Description=Select -ve objid for child Invitation
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Invitationid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Invitationid from table_Invitation where objid like \'-%\' and Invitation2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid Invitationid from table_Invitation where objid like \'-%\' and Invitation2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Invitation
+		TableName=Invitation
+		Description=Update -ve objid for child Invitation
+		StepNo=5
+		Input=@objid @name @Invitationid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Invitation set objid=@objid where objid=@Invitationid and name=@name
+		MssqlQuery=update table_Invitation set objid=@objid where objid=@Invitationid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Artifacts
+		TableName=Artifacts
+		Description=Select -ve objid for child Artifacts
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Artifactsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Artifactsid from table_Artifacts where objid like \'-%\' and Artifacts2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid Artifactsid from table_Artifacts where objid like \'-%\' and Artifacts2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Artifacts
+		TableName=Artifacts
+		Description=Update -ve objid for child Artifacts
+		StepNo=7
+		Input=@objid @name @Artifactsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Artifacts set objid=@objid where objid=@Artifactsid and name=@name
+		MssqlQuery=update table_Artifacts set objid=@objid where objid=@Artifactsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child BidQuiz
+		TableName=BidQuiz
+		Description=Select -ve objid for child BidQuiz
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BidQuizid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BidQuizid from table_BidQuiz where objid like \'-%\' and BidQuiz2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid BidQuizid from table_BidQuiz where objid like \'-%\' and BidQuiz2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BidQuiz
+		TableName=BidQuiz
+		Description=Update -ve objid for child BidQuiz
+		StepNo=9
+		Input=@objid @name @BidQuizid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BidQuiz set objid=@objid where objid=@BidQuizid and name=@name
+		MssqlQuery=update table_BidQuiz set objid=@objid where objid=@BidQuizid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PartBid
+		TableName=PartBid
+		Description=Select -ve objid for child PartBid
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PartBidid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PartBidid from table_PartBid where objid like \'-%\' and PartBid2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid PartBidid from table_PartBid where objid like \'-%\' and PartBid2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PartBid
+		TableName=PartBid
+		Description=Update -ve objid for child PartBid
+		StepNo=11
+		Input=@objid @name @PartBidid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PartBid set objid=@objid where objid=@PartBidid and name=@name
+		MssqlQuery=update table_PartBid set objid=@objid where objid=@PartBidid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child RequestInfo
+		TableName=RequestInfo
+		Description=Select -ve objid for child RequestInfo
+		StepNo=12
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $RequestInfoid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid RequestInfoid from table_RequestInfo where objid like \'-%\' and RequestInfo2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid RequestInfoid from table_RequestInfo where objid like \'-%\' and RequestInfo2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child RequestInfo
+		TableName=RequestInfo
+		Description=Update -ve objid for child RequestInfo
+		StepNo=13
+		Input=@objid @name @RequestInfoid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_RequestInfo set objid=@objid where objid=@RequestInfoid and name=@name
+		MssqlQuery=update table_RequestInfo set objid=@objid where objid=@RequestInfoid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Bids
+		TableName=Bids
+		Description=Select -ve objid for child Bids
+		StepNo=14
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Bidsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Bidsid from table_Bids where objid like \'-%\' and Bids2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid Bidsid from table_Bids where objid like \'-%\' and Bids2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Bids
+		TableName=Bids
+		Description=Update -ve objid for child Bids
+		StepNo=15
+		Input=@objid @name @Bidsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Bids set objid=@objid where objid=@Bidsid and name=@name
+		MssqlQuery=update table_Bids set objid=@objid where objid=@Bidsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child LowBid
+		TableName=LowBid
+		Description=Select -ve objid for child LowBid
+		StepNo=16
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LowBidid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LowBidid from table_LowBid where objid like \'-%\' and LowBid2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid LowBidid from table_LowBid where objid like \'-%\' and LowBid2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LowBid
+		TableName=LowBid
+		Description=Update -ve objid for child LowBid
+		StepNo=17
+		Input=@objid @name @LowBidid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LowBid set objid=@objid where objid=@LowBidid and name=@name
+		MssqlQuery=update table_LowBid set objid=@objid where objid=@LowBidid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PurchaseOrder
+		TableName=PurchaseOrder
+		Description=Select -ve objid for child PurchaseOrder
+		StepNo=18
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PurchaseOrderid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PurchaseOrderid from table_PurchaseOrder where objid like \'-%\' and PurchaseOrder2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid PurchaseOrderid from table_PurchaseOrder where objid like \'-%\' and PurchaseOrder2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PurchaseOrder
+		TableName=PurchaseOrder
+		Description=Update -ve objid for child PurchaseOrder
+		StepNo=19
+		Input=@objid @name @PurchaseOrderid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PurchaseOrder set objid=@objid where objid=@PurchaseOrderid and name=@name
+		MssqlQuery=update table_PurchaseOrder set objid=@objid where objid=@PurchaseOrderid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child ResourceOrder
+		TableName=ResourceOrder
+		Description=Select -ve objid for child ResourceOrder
+		StepNo=20
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ResourceOrderid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ResourceOrderid from table_ResourceOrder where objid like \'-%\' and ResourceOrder2Bidrequest=@objid
+		MssqlQuery=select objid, name ,objid ResourceOrderid from table_ResourceOrder where objid like \'-%\' and ResourceOrder2Bidrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ResourceOrder
+		TableName=ResourceOrder
+		Description=Update -ve objid for child ResourceOrder
+		StepNo=21
+		Input=@objid @name @ResourceOrderid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ResourceOrder set objid=@objid where objid=@ResourceOrderid and name=@name
+		MssqlQuery=update table_ResourceOrder set objid=@objid where objid=@ResourceOrderid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Bidrequest procedure
+		TableName=Bidrequest
+		Description=Call Update_Bidrequest procedure
+		StepNo=22
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Bidrequest(@objid)
+		MssqlQuery=exec Update_Bidrequest @objid
+		Status=0
+	</ActionQuery>

@@ -1,0 +1,147 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Lead
+//Attribute Name:Lead Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Lead Rule
+		TableName=Lead
+		EffectedTable=LeadNote
+		Description=Calling Upadte and Insert Rule for object Lead
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Lead
+//Name:Call Insert_Lead procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Lead procedure
+		TableName=Lead
+		Description=Call Insert_Lead procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Lead(@objid)
+		MssqlQuery=exec Insert_Lead @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child LeadNote
+		TableName=LeadNote
+		Description=Select -ve objid for child LeadNote
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LeadNoteid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LeadNoteid from table_LeadNote where objid like \'-%\' and LeadNote2Lead=@objid
+		MssqlQuery=select objid, name ,objid LeadNoteid from table_LeadNote where objid like \'-%\' and LeadNote2Lead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LeadNote
+		TableName=LeadNote
+		Description=Update -ve objid for child LeadNote
+		StepNo=3
+		Input=@objid @name @LeadNoteid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LeadNote set objid=@objid where objid=@LeadNoteid and name=@name
+		MssqlQuery=update table_LeadNote set objid=@objid where objid=@LeadNoteid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child LeadEmail
+		TableName=LeadEmail
+		Description=Select -ve objid for child LeadEmail
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LeadEmailid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LeadEmailid from table_LeadEmail where objid like \'-%\' and LeadEmail2Lead=@objid
+		MssqlQuery=select objid, name ,objid LeadEmailid from table_LeadEmail where objid like \'-%\' and LeadEmail2Lead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LeadEmail
+		TableName=LeadEmail
+		Description=Update -ve objid for child LeadEmail
+		StepNo=5
+		Input=@objid @name @LeadEmailid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LeadEmail set objid=@objid where objid=@LeadEmailid and name=@name
+		MssqlQuery=update table_LeadEmail set objid=@objid where objid=@LeadEmailid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child LeadAccess
+		TableName=LeadAccess
+		Description=Select -ve objid for child LeadAccess
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LeadAccessid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LeadAccessid from table_LeadAccess where objid like \'-%\' and LeadAccess2Lead=@objid
+		MssqlQuery=select objid, name ,objid LeadAccessid from table_LeadAccess where objid like \'-%\' and LeadAccess2Lead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LeadAccess
+		TableName=LeadAccess
+		Description=Update -ve objid for child LeadAccess
+		StepNo=7
+		Input=@objid @name @LeadAccessid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LeadAccess set objid=@objid where objid=@LeadAccessid and name=@name
+		MssqlQuery=update table_LeadAccess set objid=@objid where objid=@LeadAccessid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Lead procedure
+		TableName=Lead
+		Description=Call Update_Lead procedure
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Lead(@objid)
+		MssqlQuery=exec Update_Lead @objid
+		Status=0
+	</ActionQuery>

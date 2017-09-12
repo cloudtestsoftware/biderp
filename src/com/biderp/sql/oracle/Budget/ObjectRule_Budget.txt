@@ -1,0 +1,240 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Budget
+//Attribute Name:Budget Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Budget Rule
+		TableName=Budget
+		EffectedTable=BudgetHead
+		Description=Calling Upadte and Insert Rule for object Budget
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Budget
+//Name:Call Insert_Budget procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Budget procedure
+		TableName=Budget
+		Description=Call Insert_Budget procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Budget(@objid)
+		MssqlQuery=exec Insert_Budget @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child BudgetHead
+		TableName=BudgetHead
+		Description=Select -ve objid for child BudgetHead
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BudgetHeadid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BudgetHeadid from table_BudgetHead where objid like \'-%\' and BudgetHead2Budget=@objid
+		MssqlQuery=select objid, name ,objid BudgetHeadid from table_BudgetHead where objid like \'-%\' and BudgetHead2Budget=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BudgetHead
+		TableName=BudgetHead
+		Description=Update -ve objid for child BudgetHead
+		StepNo=3
+		Input=@objid @name @BudgetHeadid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BudgetHead set objid=@objid where objid=@BudgetHeadid and name=@name
+		MssqlQuery=update table_BudgetHead set objid=@objid where objid=@BudgetHeadid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child BudgetPlan
+		TableName=BudgetPlan
+		Description=Select -ve objid for child BudgetPlan
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BudgetPlanid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BudgetPlanid from table_BudgetPlan where objid like \'-%\' and BudgetPlan2Budget=@objid
+		MssqlQuery=select objid, name ,objid BudgetPlanid from table_BudgetPlan where objid like \'-%\' and BudgetPlan2Budget=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BudgetPlan
+		TableName=BudgetPlan
+		Description=Update -ve objid for child BudgetPlan
+		StepNo=5
+		Input=@objid @name @BudgetPlanid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BudgetPlan set objid=@objid where objid=@BudgetPlanid and name=@name
+		MssqlQuery=update table_BudgetPlan set objid=@objid where objid=@BudgetPlanid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Invoice
+		TableName=Invoice
+		Description=Select -ve objid for child Invoice
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Invoiceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Invoiceid from table_Invoice where objid like \'-%\' and Invoice2Budget=@objid
+		MssqlQuery=select objid, name ,objid Invoiceid from table_Invoice where objid like \'-%\' and Invoice2Budget=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Invoice
+		TableName=Invoice
+		Description=Update -ve objid for child Invoice
+		StepNo=7
+		Input=@objid @name @Invoiceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Invoice set objid=@objid where objid=@Invoiceid and name=@name
+		MssqlQuery=update table_Invoice set objid=@objid where objid=@Invoiceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Payment
+		TableName=Payment
+		Description=Select -ve objid for child Payment
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Paymentid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Paymentid from table_Payment where objid like \'-%\' and Payment2Budget=@objid
+		MssqlQuery=select objid, name ,objid Paymentid from table_Payment where objid like \'-%\' and Payment2Budget=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Payment
+		TableName=Payment
+		Description=Update -ve objid for child Payment
+		StepNo=9
+		Input=@objid @name @Paymentid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Payment set objid=@objid where objid=@Paymentid and name=@name
+		MssqlQuery=update table_Payment set objid=@objid where objid=@Paymentid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Monthly
+		TableName=Monthly
+		Description=Select -ve objid for child Monthly
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Monthlyid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Monthlyid from table_Monthly where objid like \'-%\' and Monthly2Budget=@objid
+		MssqlQuery=select objid, name ,objid Monthlyid from table_Monthly where objid like \'-%\' and Monthly2Budget=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Monthly
+		TableName=Monthly
+		Description=Update -ve objid for child Monthly
+		StepNo=11
+		Input=@objid @name @Monthlyid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Monthly set objid=@objid where objid=@Monthlyid and name=@name
+		MssqlQuery=update table_Monthly set objid=@objid where objid=@Monthlyid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Yearly
+		TableName=Yearly
+		Description=Select -ve objid for child Yearly
+		StepNo=12
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Yearlyid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Yearlyid from table_Yearly where objid like \'-%\' and Yearly2Budget=@objid
+		MssqlQuery=select objid, name ,objid Yearlyid from table_Yearly where objid like \'-%\' and Yearly2Budget=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Yearly
+		TableName=Yearly
+		Description=Update -ve objid for child Yearly
+		StepNo=13
+		Input=@objid @name @Yearlyid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Yearly set objid=@objid where objid=@Yearlyid and name=@name
+		MssqlQuery=update table_Yearly set objid=@objid where objid=@Yearlyid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Budget procedure
+		TableName=Budget
+		Description=Call Update_Budget procedure
+		StepNo=14
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Budget(@objid)
+		MssqlQuery=exec Update_Budget @objid
+		Status=0
+	</ActionQuery>

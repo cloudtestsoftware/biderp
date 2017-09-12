@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Pobudgethead
+//Attribute Name:Pobudgethead Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Pobudgethead Rule
+		TableName=Pobudgethead
+		EffectedTable=Transaction
+		Description=Calling Upadte and Insert Rule for object Pobudgethead
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Pobudgethead
+//Name:Call Insert_Pobudgethead procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Pobudgethead procedure
+		TableName=Pobudgethead
+		Description=Call Insert_Pobudgethead procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Pobudgethead(@objid)
+		MssqlQuery=exec Insert_Pobudgethead @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Transaction
+		TableName=Transaction
+		Description=Select -ve objid for child Transaction
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Transactionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Pobudgethead=@objid
+		MssqlQuery=select objid, name ,objid Transactionid from table_Transaction where objid like \'-%\' and Transaction2Pobudgethead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Transaction
+		TableName=Transaction
+		Description=Update -ve objid for child Transaction
+		StepNo=3
+		Input=@objid @name @Transactionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		MssqlQuery=update table_Transaction set objid=@objid where objid=@Transactionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Pobudgethead procedure
+		TableName=Pobudgethead
+		Description=Call Update_Pobudgethead procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Pobudgethead(@objid)
+		MssqlQuery=exec Update_Pobudgethead @objid
+		Status=0
+	</ActionQuery>

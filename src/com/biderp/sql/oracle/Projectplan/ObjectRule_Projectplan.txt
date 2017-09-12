@@ -1,0 +1,147 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Projectplan
+//Attribute Name:Projectplan Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Projectplan Rule
+		TableName=Projectplan
+		EffectedTable=MileStone
+		Description=Calling Upadte and Insert Rule for object Projectplan
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Projectplan
+//Name:Call Insert_Projectplan procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Projectplan procedure
+		TableName=Projectplan
+		Description=Call Insert_Projectplan procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Projectplan(@objid)
+		MssqlQuery=exec Insert_Projectplan @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child MileStone
+		TableName=MileStone
+		Description=Select -ve objid for child MileStone
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $MileStoneid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid MileStoneid from table_MileStone where objid like \'-%\' and MileStone2Projectplan=@objid
+		MssqlQuery=select objid, name ,objid MileStoneid from table_MileStone where objid like \'-%\' and MileStone2Projectplan=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child MileStone
+		TableName=MileStone
+		Description=Update -ve objid for child MileStone
+		StepNo=3
+		Input=@objid @name @MileStoneid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_MileStone set objid=@objid where objid=@MileStoneid and name=@name
+		MssqlQuery=update table_MileStone set objid=@objid where objid=@MileStoneid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PPLink
+		TableName=PPLink
+		Description=Select -ve objid for child PPLink
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PPLinkid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PPLinkid from table_PPLink where objid like \'-%\' and PPLink2Projectplan=@objid
+		MssqlQuery=select objid, name ,objid PPLinkid from table_PPLink where objid like \'-%\' and PPLink2Projectplan=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PPLink
+		TableName=PPLink
+		Description=Update -ve objid for child PPLink
+		StepNo=5
+		Input=@objid @name @PPLinkid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PPLink set objid=@objid where objid=@PPLinkid and name=@name
+		MssqlQuery=update table_PPLink set objid=@objid where objid=@PPLinkid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child WhatToDo
+		TableName=WhatToDo
+		Description=Select -ve objid for child WhatToDo
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $WhatToDoid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid WhatToDoid from table_WhatToDo where objid like \'-%\' and WhatToDo2Projectplan=@objid
+		MssqlQuery=select objid, name ,objid WhatToDoid from table_WhatToDo where objid like \'-%\' and WhatToDo2Projectplan=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child WhatToDo
+		TableName=WhatToDo
+		Description=Update -ve objid for child WhatToDo
+		StepNo=7
+		Input=@objid @name @WhatToDoid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_WhatToDo set objid=@objid where objid=@WhatToDoid and name=@name
+		MssqlQuery=update table_WhatToDo set objid=@objid where objid=@WhatToDoid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Projectplan procedure
+		TableName=Projectplan
+		Description=Call Update_Projectplan procedure
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Projectplan(@objid)
+		MssqlQuery=exec Update_Projectplan @objid
+		Status=0
+	</ActionQuery>

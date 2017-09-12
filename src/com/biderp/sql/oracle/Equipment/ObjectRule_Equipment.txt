@@ -1,0 +1,209 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Equipment
+//Attribute Name:Equipment Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Equipment Rule
+		TableName=Equipment
+		EffectedTable=FindAsset
+		Description=Calling Upadte and Insert Rule for object Equipment
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Equipment
+//Name:Call Insert_Equipment procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Equipment procedure
+		TableName=Equipment
+		Description=Call Insert_Equipment procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Equipment(@objid)
+		MssqlQuery=exec Insert_Equipment @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child FindAsset
+		TableName=FindAsset
+		Description=Select -ve objid for child FindAsset
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $FindAssetid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid FindAssetid from table_FindAsset where objid like \'-%\' and FindAsset2Equipment=@objid
+		MssqlQuery=select objid, name ,objid FindAssetid from table_FindAsset where objid like \'-%\' and FindAsset2Equipment=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child FindAsset
+		TableName=FindAsset
+		Description=Update -ve objid for child FindAsset
+		StepNo=3
+		Input=@objid @name @FindAssetid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_FindAsset set objid=@objid where objid=@FindAssetid and name=@name
+		MssqlQuery=update table_FindAsset set objid=@objid where objid=@FindAssetid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Maintenance
+		TableName=Maintenance
+		Description=Select -ve objid for child Maintenance
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Maintenanceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Maintenanceid from table_Maintenance where objid like \'-%\' and Maintenance2Equipment=@objid
+		MssqlQuery=select objid, name ,objid Maintenanceid from table_Maintenance where objid like \'-%\' and Maintenance2Equipment=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Maintenance
+		TableName=Maintenance
+		Description=Update -ve objid for child Maintenance
+		StepNo=5
+		Input=@objid @name @Maintenanceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Maintenance set objid=@objid where objid=@Maintenanceid and name=@name
+		MssqlQuery=update table_Maintenance set objid=@objid where objid=@Maintenanceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child YearlyCost
+		TableName=YearlyCost
+		Description=Select -ve objid for child YearlyCost
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $YearlyCostid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid YearlyCostid from table_YearlyCost where objid like \'-%\' and YearlyCost2Equipment=@objid
+		MssqlQuery=select objid, name ,objid YearlyCostid from table_YearlyCost where objid like \'-%\' and YearlyCost2Equipment=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child YearlyCost
+		TableName=YearlyCost
+		Description=Update -ve objid for child YearlyCost
+		StepNo=7
+		Input=@objid @name @YearlyCostid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_YearlyCost set objid=@objid where objid=@YearlyCostid and name=@name
+		MssqlQuery=update table_YearlyCost set objid=@objid where objid=@YearlyCostid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Depricated
+		TableName=Depricated
+		Description=Select -ve objid for child Depricated
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Depricatedid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Depricatedid from table_Depricated where objid like \'-%\' and Depricated2Equipment=@objid
+		MssqlQuery=select objid, name ,objid Depricatedid from table_Depricated where objid like \'-%\' and Depricated2Equipment=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Depricated
+		TableName=Depricated
+		Description=Update -ve objid for child Depricated
+		StepNo=9
+		Input=@objid @name @Depricatedid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Depricated set objid=@objid where objid=@Depricatedid and name=@name
+		MssqlQuery=update table_Depricated set objid=@objid where objid=@Depricatedid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child AccountDebit
+		TableName=AccountDebit
+		Description=Select -ve objid for child AccountDebit
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $AccountDebitid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid AccountDebitid from table_AccountDebit where objid like \'-%\' and AccountDebit2Equipment=@objid
+		MssqlQuery=select objid, name ,objid AccountDebitid from table_AccountDebit where objid like \'-%\' and AccountDebit2Equipment=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child AccountDebit
+		TableName=AccountDebit
+		Description=Update -ve objid for child AccountDebit
+		StepNo=11
+		Input=@objid @name @AccountDebitid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_AccountDebit set objid=@objid where objid=@AccountDebitid and name=@name
+		MssqlQuery=update table_AccountDebit set objid=@objid where objid=@AccountDebitid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Equipment procedure
+		TableName=Equipment
+		Description=Call Update_Equipment procedure
+		StepNo=12
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Equipment(@objid)
+		MssqlQuery=exec Update_Equipment @objid
+		Status=0
+	</ActionQuery>

@@ -1,0 +1,116 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Partrequest
+//Attribute Name:Partrequest Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Partrequest Rule
+		TableName=Partrequest
+		EffectedTable=ItemReceived
+		Description=Calling Upadte and Insert Rule for object Partrequest
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Partrequest
+//Name:Call Insert_Partrequest procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Partrequest procedure
+		TableName=Partrequest
+		Description=Call Insert_Partrequest procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Partrequest(@objid)
+		MssqlQuery=exec Insert_Partrequest @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child ItemReceived
+		TableName=ItemReceived
+		Description=Select -ve objid for child ItemReceived
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ItemReceivedid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ItemReceivedid from table_ItemReceived where objid like \'-%\' and ItemReceived2Partrequest=@objid
+		MssqlQuery=select objid, name ,objid ItemReceivedid from table_ItemReceived where objid like \'-%\' and ItemReceived2Partrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ItemReceived
+		TableName=ItemReceived
+		Description=Update -ve objid for child ItemReceived
+		StepNo=3
+		Input=@objid @name @ItemReceivedid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ItemReceived set objid=@objid where objid=@ItemReceivedid and name=@name
+		MssqlQuery=update table_ItemReceived set objid=@objid where objid=@ItemReceivedid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child ItemDispatch
+		TableName=ItemDispatch
+		Description=Select -ve objid for child ItemDispatch
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ItemDispatchid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ItemDispatchid from table_ItemDispatch where objid like \'-%\' and ItemDispatch2Partrequest=@objid
+		MssqlQuery=select objid, name ,objid ItemDispatchid from table_ItemDispatch where objid like \'-%\' and ItemDispatch2Partrequest=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ItemDispatch
+		TableName=ItemDispatch
+		Description=Update -ve objid for child ItemDispatch
+		StepNo=5
+		Input=@objid @name @ItemDispatchid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ItemDispatch set objid=@objid where objid=@ItemDispatchid and name=@name
+		MssqlQuery=update table_ItemDispatch set objid=@objid where objid=@ItemDispatchid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Partrequest procedure
+		TableName=Partrequest
+		Description=Call Update_Partrequest procedure
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Partrequest(@objid)
+		MssqlQuery=exec Update_Partrequest @objid
+		Status=0
+	</ActionQuery>

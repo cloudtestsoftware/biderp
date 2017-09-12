@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Budgethead
+//Attribute Name:Budgethead Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Budgethead Rule
+		TableName=Budgethead
+		EffectedTable=Allocation
+		Description=Calling Upadte and Insert Rule for object Budgethead
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Budgethead
+//Name:Call Insert_Budgethead procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Budgethead procedure
+		TableName=Budgethead
+		Description=Call Insert_Budgethead procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Budgethead(@objid)
+		MssqlQuery=exec Insert_Budgethead @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Allocation
+		TableName=Allocation
+		Description=Select -ve objid for child Allocation
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Allocationid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Allocationid from table_Allocation where objid like \'-%\' and Allocation2Budgethead=@objid
+		MssqlQuery=select objid, name ,objid Allocationid from table_Allocation where objid like \'-%\' and Allocation2Budgethead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Allocation
+		TableName=Allocation
+		Description=Update -ve objid for child Allocation
+		StepNo=3
+		Input=@objid @name @Allocationid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Allocation set objid=@objid where objid=@Allocationid and name=@name
+		MssqlQuery=update table_Allocation set objid=@objid where objid=@Allocationid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Budgethead procedure
+		TableName=Budgethead
+		Description=Call Update_Budgethead procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Budgethead(@objid)
+		MssqlQuery=exec Update_Budgethead @objid
+		Status=0
+	</ActionQuery>

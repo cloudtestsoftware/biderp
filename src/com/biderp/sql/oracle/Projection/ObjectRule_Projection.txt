@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Projection
+//Attribute Name:Projection Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Projection Rule
+		TableName=Projection
+		EffectedTable=MonthlyRevenue
+		Description=Calling Upadte and Insert Rule for object Projection
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Projection
+//Name:Call Insert_Projection procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Projection procedure
+		TableName=Projection
+		Description=Call Insert_Projection procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Projection(@objid)
+		MssqlQuery=exec Insert_Projection @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child MonthlyRevenue
+		TableName=MonthlyRevenue
+		Description=Select -ve objid for child MonthlyRevenue
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $MonthlyRevenueid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid MonthlyRevenueid from table_MonthlyRevenue where objid like \'-%\' and MonthlyRevenue2Projection=@objid
+		MssqlQuery=select objid, name ,objid MonthlyRevenueid from table_MonthlyRevenue where objid like \'-%\' and MonthlyRevenue2Projection=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child MonthlyRevenue
+		TableName=MonthlyRevenue
+		Description=Update -ve objid for child MonthlyRevenue
+		StepNo=3
+		Input=@objid @name @MonthlyRevenueid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_MonthlyRevenue set objid=@objid where objid=@MonthlyRevenueid and name=@name
+		MssqlQuery=update table_MonthlyRevenue set objid=@objid where objid=@MonthlyRevenueid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Projection procedure
+		TableName=Projection
+		Description=Call Update_Projection procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Projection(@objid)
+		MssqlQuery=exec Update_Projection @objid
+		Status=0
+	</ActionQuery>

@@ -1,0 +1,116 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Parts
+//Attribute Name:Parts Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Parts Rule
+		TableName=Parts
+		EffectedTable=PartRequest
+		Description=Calling Upadte and Insert Rule for object Parts
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Parts
+//Name:Call Insert_Parts procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Parts procedure
+		TableName=Parts
+		Description=Call Insert_Parts procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Parts(@objid)
+		MssqlQuery=exec Insert_Parts @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child PartRequest
+		TableName=PartRequest
+		Description=Select -ve objid for child PartRequest
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PartRequestid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PartRequestid from table_PartRequest where objid like \'-%\' and PartRequest2Parts=@objid
+		MssqlQuery=select objid, name ,objid PartRequestid from table_PartRequest where objid like \'-%\' and PartRequest2Parts=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PartRequest
+		TableName=PartRequest
+		Description=Update -ve objid for child PartRequest
+		StepNo=3
+		Input=@objid @name @PartRequestid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PartRequest set objid=@objid where objid=@PartRequestid and name=@name
+		MssqlQuery=update table_PartRequest set objid=@objid where objid=@PartRequestid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Indent
+		TableName=Indent
+		Description=Select -ve objid for child Indent
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Indentid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Indentid from table_Indent where objid like \'-%\' and Indent2Parts=@objid
+		MssqlQuery=select objid, name ,objid Indentid from table_Indent where objid like \'-%\' and Indent2Parts=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Indent
+		TableName=Indent
+		Description=Update -ve objid for child Indent
+		StepNo=5
+		Input=@objid @name @Indentid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Indent set objid=@objid where objid=@Indentid and name=@name
+		MssqlQuery=update table_Indent set objid=@objid where objid=@Indentid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Parts procedure
+		TableName=Parts
+		Description=Call Update_Parts procedure
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Parts(@objid)
+		MssqlQuery=exec Update_Parts @objid
+		Status=0
+	</ActionQuery>

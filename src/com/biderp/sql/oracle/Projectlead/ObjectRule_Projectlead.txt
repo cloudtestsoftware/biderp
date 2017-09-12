@@ -1,0 +1,116 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Projectlead
+//Attribute Name:Projectlead Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Projectlead Rule
+		TableName=Projectlead
+		EffectedTable=LeadContact
+		Description=Calling Upadte and Insert Rule for object Projectlead
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Projectlead
+//Name:Call Insert_Projectlead procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Projectlead procedure
+		TableName=Projectlead
+		Description=Call Insert_Projectlead procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Projectlead(@objid)
+		MssqlQuery=exec Insert_Projectlead @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child LeadContact
+		TableName=LeadContact
+		Description=Select -ve objid for child LeadContact
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LeadContactid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LeadContactid from table_LeadContact where objid like \'-%\' and LeadContact2Projectlead=@objid
+		MssqlQuery=select objid, name ,objid LeadContactid from table_LeadContact where objid like \'-%\' and LeadContact2Projectlead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LeadContact
+		TableName=LeadContact
+		Description=Update -ve objid for child LeadContact
+		StepNo=3
+		Input=@objid @name @LeadContactid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LeadContact set objid=@objid where objid=@LeadContactid and name=@name
+		MssqlQuery=update table_LeadContact set objid=@objid where objid=@LeadContactid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child LeadJobs
+		TableName=LeadJobs
+		Description=Select -ve objid for child LeadJobs
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LeadJobsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LeadJobsid from table_LeadJobs where objid like \'-%\' and LeadJobs2Projectlead=@objid
+		MssqlQuery=select objid, name ,objid LeadJobsid from table_LeadJobs where objid like \'-%\' and LeadJobs2Projectlead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LeadJobs
+		TableName=LeadJobs
+		Description=Update -ve objid for child LeadJobs
+		StepNo=5
+		Input=@objid @name @LeadJobsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LeadJobs set objid=@objid where objid=@LeadJobsid and name=@name
+		MssqlQuery=update table_LeadJobs set objid=@objid where objid=@LeadJobsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Projectlead procedure
+		TableName=Projectlead
+		Description=Call Update_Projectlead procedure
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Projectlead(@objid)
+		MssqlQuery=exec Update_Projectlead @objid
+		Status=0
+	</ActionQuery>

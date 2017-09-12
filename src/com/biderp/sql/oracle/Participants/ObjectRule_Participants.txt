@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Participants
+//Attribute Name:Participants Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Participants Rule
+		TableName=Participants
+		EffectedTable=Evaluation
+		Description=Calling Upadte and Insert Rule for object Participants
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Participants
+//Name:Call Insert_Participants procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Participants procedure
+		TableName=Participants
+		Description=Call Insert_Participants procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Participants(@objid)
+		MssqlQuery=exec Insert_Participants @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Evaluation
+		TableName=Evaluation
+		Description=Select -ve objid for child Evaluation
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Evaluationid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Evaluationid from table_Evaluation where objid like \'-%\' and Evaluation2Participants=@objid
+		MssqlQuery=select objid, name ,objid Evaluationid from table_Evaluation where objid like \'-%\' and Evaluation2Participants=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Evaluation
+		TableName=Evaluation
+		Description=Update -ve objid for child Evaluation
+		StepNo=3
+		Input=@objid @name @Evaluationid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Evaluation set objid=@objid where objid=@Evaluationid and name=@name
+		MssqlQuery=update table_Evaluation set objid=@objid where objid=@Evaluationid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Participants procedure
+		TableName=Participants
+		Description=Call Update_Participants procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Participants(@objid)
+		MssqlQuery=exec Update_Participants @objid
+		Status=0
+	</ActionQuery>

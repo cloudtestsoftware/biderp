@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Maincode
+//Attribute Name:Maincode Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Maincode Rule
+		TableName=Maincode
+		EffectedTable=SubCode
+		Description=Calling Upadte and Insert Rule for object Maincode
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Maincode
+//Name:Call Insert_Maincode procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Maincode procedure
+		TableName=Maincode
+		Description=Call Insert_Maincode procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Maincode(@objid)
+		MssqlQuery=exec Insert_Maincode @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child SubCode
+		TableName=SubCode
+		Description=Select -ve objid for child SubCode
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $SubCodeid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid SubCodeid from table_SubCode where objid like \'-%\' and SubCode2Maincode=@objid
+		MssqlQuery=select objid, name ,objid SubCodeid from table_SubCode where objid like \'-%\' and SubCode2Maincode=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child SubCode
+		TableName=SubCode
+		Description=Update -ve objid for child SubCode
+		StepNo=3
+		Input=@objid @name @SubCodeid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_SubCode set objid=@objid where objid=@SubCodeid and name=@name
+		MssqlQuery=update table_SubCode set objid=@objid where objid=@SubCodeid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Maincode procedure
+		TableName=Maincode
+		Description=Call Update_Maincode procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Maincode(@objid)
+		MssqlQuery=exec Update_Maincode @objid
+		Status=0
+	</ActionQuery>

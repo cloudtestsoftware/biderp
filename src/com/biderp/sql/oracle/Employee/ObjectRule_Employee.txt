@@ -1,0 +1,395 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Employee
+//Attribute Name:Employee Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Employee Rule
+		TableName=Employee
+		EffectedTable=Contact
+		Description=Calling Upadte and Insert Rule for object Employee
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Employee
+//Name:Call Insert_Employee procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Employee procedure
+		TableName=Employee
+		Description=Call Insert_Employee procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Employee(@objid)
+		MssqlQuery=exec Insert_Employee @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Contact
+		TableName=Contact
+		Description=Select -ve objid for child Contact
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Contactid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Contactid from table_Contact where objid like \'-%\' and Contact2Employee=@objid
+		MssqlQuery=select objid, name ,objid Contactid from table_Contact where objid like \'-%\' and Contact2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Contact
+		TableName=Contact
+		Description=Update -ve objid for child Contact
+		StepNo=3
+		Input=@objid @name @Contactid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Contact set objid=@objid where objid=@Contactid and name=@name
+		MssqlQuery=update table_Contact set objid=@objid where objid=@Contactid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Payrole
+		TableName=Payrole
+		Description=Select -ve objid for child Payrole
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Payroleid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Payroleid from table_Payrole where objid like \'-%\' and Payrole2Employee=@objid
+		MssqlQuery=select objid, name ,objid Payroleid from table_Payrole where objid like \'-%\' and Payrole2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Payrole
+		TableName=Payrole
+		Description=Update -ve objid for child Payrole
+		StepNo=5
+		Input=@objid @name @Payroleid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Payrole set objid=@objid where objid=@Payroleid and name=@name
+		MssqlQuery=update table_Payrole set objid=@objid where objid=@Payroleid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Benifit
+		TableName=Benifit
+		Description=Select -ve objid for child Benifit
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Benifitid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Benifitid from table_Benifit where objid like \'-%\' and Benifit2Employee=@objid
+		MssqlQuery=select objid, name ,objid Benifitid from table_Benifit where objid like \'-%\' and Benifit2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Benifit
+		TableName=Benifit
+		Description=Update -ve objid for child Benifit
+		StepNo=7
+		Input=@objid @name @Benifitid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Benifit set objid=@objid where objid=@Benifitid and name=@name
+		MssqlQuery=update table_Benifit set objid=@objid where objid=@Benifitid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Dependent
+		TableName=Dependent
+		Description=Select -ve objid for child Dependent
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Dependentid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Dependentid from table_Dependent where objid like \'-%\' and Dependent2Employee=@objid
+		MssqlQuery=select objid, name ,objid Dependentid from table_Dependent where objid like \'-%\' and Dependent2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Dependent
+		TableName=Dependent
+		Description=Update -ve objid for child Dependent
+		StepNo=9
+		Input=@objid @name @Dependentid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Dependent set objid=@objid where objid=@Dependentid and name=@name
+		MssqlQuery=update table_Dependent set objid=@objid where objid=@Dependentid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Deduction
+		TableName=Deduction
+		Description=Select -ve objid for child Deduction
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Deductionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Deductionid from table_Deduction where objid like \'-%\' and Deduction2Employee=@objid
+		MssqlQuery=select objid, name ,objid Deductionid from table_Deduction where objid like \'-%\' and Deduction2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Deduction
+		TableName=Deduction
+		Description=Update -ve objid for child Deduction
+		StepNo=11
+		Input=@objid @name @Deductionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Deduction set objid=@objid where objid=@Deductionid and name=@name
+		MssqlQuery=update table_Deduction set objid=@objid where objid=@Deductionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Addition
+		TableName=Addition
+		Description=Select -ve objid for child Addition
+		StepNo=12
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Additionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Additionid from table_Addition where objid like \'-%\' and Addition2Employee=@objid
+		MssqlQuery=select objid, name ,objid Additionid from table_Addition where objid like \'-%\' and Addition2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Addition
+		TableName=Addition
+		Description=Update -ve objid for child Addition
+		StepNo=13
+		Input=@objid @name @Additionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Addition set objid=@objid where objid=@Additionid and name=@name
+		MssqlQuery=update table_Addition set objid=@objid where objid=@Additionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Substruction
+		TableName=Substruction
+		Description=Select -ve objid for child Substruction
+		StepNo=14
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Substructionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Substructionid from table_Substruction where objid like \'-%\' and Substruction2Employee=@objid
+		MssqlQuery=select objid, name ,objid Substructionid from table_Substruction where objid like \'-%\' and Substruction2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Substruction
+		TableName=Substruction
+		Description=Update -ve objid for child Substruction
+		StepNo=15
+		Input=@objid @name @Substructionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Substruction set objid=@objid where objid=@Substructionid and name=@name
+		MssqlQuery=update table_Substruction set objid=@objid where objid=@Substructionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Vacation
+		TableName=Vacation
+		Description=Select -ve objid for child Vacation
+		StepNo=16
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Vacationid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Vacationid from table_Vacation where objid like \'-%\' and Vacation2Employee=@objid
+		MssqlQuery=select objid, name ,objid Vacationid from table_Vacation where objid like \'-%\' and Vacation2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Vacation
+		TableName=Vacation
+		Description=Update -ve objid for child Vacation
+		StepNo=17
+		Input=@objid @name @Vacationid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Vacation set objid=@objid where objid=@Vacationid and name=@name
+		MssqlQuery=update table_Vacation set objid=@objid where objid=@Vacationid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child EarnedVacation
+		TableName=EarnedVacation
+		Description=Select -ve objid for child EarnedVacation
+		StepNo=18
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $EarnedVacationid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid EarnedVacationid from table_EarnedVacation where objid like \'-%\' and EarnedVacation2Employee=@objid
+		MssqlQuery=select objid, name ,objid EarnedVacationid from table_EarnedVacation where objid like \'-%\' and EarnedVacation2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child EarnedVacation
+		TableName=EarnedVacation
+		Description=Update -ve objid for child EarnedVacation
+		StepNo=19
+		Input=@objid @name @EarnedVacationid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_EarnedVacation set objid=@objid where objid=@EarnedVacationid and name=@name
+		MssqlQuery=update table_EarnedVacation set objid=@objid where objid=@EarnedVacationid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child BenifitChange
+		TableName=BenifitChange
+		Description=Select -ve objid for child BenifitChange
+		StepNo=20
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BenifitChangeid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BenifitChangeid from table_BenifitChange where objid like \'-%\' and BenifitChange2Employee=@objid
+		MssqlQuery=select objid, name ,objid BenifitChangeid from table_BenifitChange where objid like \'-%\' and BenifitChange2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BenifitChange
+		TableName=BenifitChange
+		Description=Update -ve objid for child BenifitChange
+		StepNo=21
+		Input=@objid @name @BenifitChangeid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BenifitChange set objid=@objid where objid=@BenifitChangeid and name=@name
+		MssqlQuery=update table_BenifitChange set objid=@objid where objid=@BenifitChangeid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Tax
+		TableName=Tax
+		Description=Select -ve objid for child Tax
+		StepNo=22
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Taxid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Taxid from table_Tax where objid like \'-%\' and Tax2Employee=@objid
+		MssqlQuery=select objid, name ,objid Taxid from table_Tax where objid like \'-%\' and Tax2Employee=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Tax
+		TableName=Tax
+		Description=Update -ve objid for child Tax
+		StepNo=23
+		Input=@objid @name @Taxid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Tax set objid=@objid where objid=@Taxid and name=@name
+		MssqlQuery=update table_Tax set objid=@objid where objid=@Taxid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Employee procedure
+		TableName=Employee
+		Description=Call Update_Employee procedure
+		StepNo=24
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Employee(@objid)
+		MssqlQuery=exec Update_Employee @objid
+		Status=0
+	</ActionQuery>

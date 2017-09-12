@@ -1,0 +1,209 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Asset
+//Attribute Name:Asset Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Asset Rule
+		TableName=Asset
+		EffectedTable=Maintenance
+		Description=Calling Upadte and Insert Rule for object Asset
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Asset
+//Name:Call Insert_Asset procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Asset procedure
+		TableName=Asset
+		Description=Call Insert_Asset procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Asset(@objid)
+		MssqlQuery=exec Insert_Asset @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Maintenance
+		TableName=Maintenance
+		Description=Select -ve objid for child Maintenance
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Maintenanceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Maintenanceid from table_Maintenance where objid like \'-%\' and Maintenance2Asset=@objid
+		MssqlQuery=select objid, name ,objid Maintenanceid from table_Maintenance where objid like \'-%\' and Maintenance2Asset=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Maintenance
+		TableName=Maintenance
+		Description=Update -ve objid for child Maintenance
+		StepNo=3
+		Input=@objid @name @Maintenanceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Maintenance set objid=@objid where objid=@Maintenanceid and name=@name
+		MssqlQuery=update table_Maintenance set objid=@objid where objid=@Maintenanceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child ServiceCost
+		TableName=ServiceCost
+		Description=Select -ve objid for child ServiceCost
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ServiceCostid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ServiceCostid from table_ServiceCost where objid like \'-%\' and ServiceCost2Asset=@objid
+		MssqlQuery=select objid, name ,objid ServiceCostid from table_ServiceCost where objid like \'-%\' and ServiceCost2Asset=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ServiceCost
+		TableName=ServiceCost
+		Description=Update -ve objid for child ServiceCost
+		StepNo=5
+		Input=@objid @name @ServiceCostid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ServiceCost set objid=@objid where objid=@ServiceCostid and name=@name
+		MssqlQuery=update table_ServiceCost set objid=@objid where objid=@ServiceCostid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Depricated
+		TableName=Depricated
+		Description=Select -ve objid for child Depricated
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Depricatedid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Depricatedid from table_Depricated where objid like \'-%\' and Depricated2Asset=@objid
+		MssqlQuery=select objid, name ,objid Depricatedid from table_Depricated where objid like \'-%\' and Depricated2Asset=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Depricated
+		TableName=Depricated
+		Description=Update -ve objid for child Depricated
+		StepNo=7
+		Input=@objid @name @Depricatedid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Depricated set objid=@objid where objid=@Depricatedid and name=@name
+		MssqlQuery=update table_Depricated set objid=@objid where objid=@Depricatedid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Address
+		TableName=Address
+		Description=Select -ve objid for child Address
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Addressid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Addressid from table_Address where objid like \'-%\' and Address2Asset=@objid
+		MssqlQuery=select objid, name ,objid Addressid from table_Address where objid like \'-%\' and Address2Asset=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Address
+		TableName=Address
+		Description=Update -ve objid for child Address
+		StepNo=9
+		Input=@objid @name @Addressid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Address set objid=@objid where objid=@Addressid and name=@name
+		MssqlQuery=update table_Address set objid=@objid where objid=@Addressid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child AccountDebit
+		TableName=AccountDebit
+		Description=Select -ve objid for child AccountDebit
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $AccountDebitid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid AccountDebitid from table_AccountDebit where objid like \'-%\' and AccountDebit2Asset=@objid
+		MssqlQuery=select objid, name ,objid AccountDebitid from table_AccountDebit where objid like \'-%\' and AccountDebit2Asset=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child AccountDebit
+		TableName=AccountDebit
+		Description=Update -ve objid for child AccountDebit
+		StepNo=11
+		Input=@objid @name @AccountDebitid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_AccountDebit set objid=@objid where objid=@AccountDebitid and name=@name
+		MssqlQuery=update table_AccountDebit set objid=@objid where objid=@AccountDebitid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Asset procedure
+		TableName=Asset
+		Description=Call Update_Asset procedure
+		StepNo=12
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Asset(@objid)
+		MssqlQuery=exec Update_Asset @objid
+		Status=0
+	</ActionQuery>

@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Invoice
+//Attribute Name:Invoice Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Invoice Rule
+		TableName=Invoice
+		EffectedTable=InvoiceItem
+		Description=Calling Upadte and Insert Rule for object Invoice
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Invoice
+//Name:Call Insert_Invoice procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Invoice procedure
+		TableName=Invoice
+		Description=Call Insert_Invoice procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Invoice(@objid)
+		MssqlQuery=exec Insert_Invoice @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child InvoiceItem
+		TableName=InvoiceItem
+		Description=Select -ve objid for child InvoiceItem
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $InvoiceItemid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid InvoiceItemid from table_InvoiceItem where objid like \'-%\' and InvoiceItem2Invoice=@objid
+		MssqlQuery=select objid, name ,objid InvoiceItemid from table_InvoiceItem where objid like \'-%\' and InvoiceItem2Invoice=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child InvoiceItem
+		TableName=InvoiceItem
+		Description=Update -ve objid for child InvoiceItem
+		StepNo=3
+		Input=@objid @name @InvoiceItemid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_InvoiceItem set objid=@objid where objid=@InvoiceItemid and name=@name
+		MssqlQuery=update table_InvoiceItem set objid=@objid where objid=@InvoiceItemid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Invoice procedure
+		TableName=Invoice
+		Description=Call Update_Invoice procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Invoice(@objid)
+		MssqlQuery=exec Update_Invoice @objid
+		Status=0
+	</ActionQuery>

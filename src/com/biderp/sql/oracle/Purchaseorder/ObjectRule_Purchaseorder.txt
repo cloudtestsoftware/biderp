@@ -1,0 +1,147 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Purchaseorder
+//Attribute Name:Purchaseorder Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Purchaseorder Rule
+		TableName=Purchaseorder
+		EffectedTable=PartRequest
+		Description=Calling Upadte and Insert Rule for object Purchaseorder
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Purchaseorder
+//Name:Call Insert_Purchaseorder procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Purchaseorder procedure
+		TableName=Purchaseorder
+		Description=Call Insert_Purchaseorder procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Purchaseorder(@objid)
+		MssqlQuery=exec Insert_Purchaseorder @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child PartRequest
+		TableName=PartRequest
+		Description=Select -ve objid for child PartRequest
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PartRequestid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PartRequestid from table_PartRequest where objid like \'-%\' and PartRequest2Purchaseorder=@objid
+		MssqlQuery=select objid, name ,objid PartRequestid from table_PartRequest where objid like \'-%\' and PartRequest2Purchaseorder=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PartRequest
+		TableName=PartRequest
+		Description=Update -ve objid for child PartRequest
+		StepNo=3
+		Input=@objid @name @PartRequestid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PartRequest set objid=@objid where objid=@PartRequestid and name=@name
+		MssqlQuery=update table_PartRequest set objid=@objid where objid=@PartRequestid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PurchaseIndent
+		TableName=PurchaseIndent
+		Description=Select -ve objid for child PurchaseIndent
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PurchaseIndentid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PurchaseIndentid from table_PurchaseIndent where objid like \'-%\' and PurchaseIndent2Purchaseorder=@objid
+		MssqlQuery=select objid, name ,objid PurchaseIndentid from table_PurchaseIndent where objid like \'-%\' and PurchaseIndent2Purchaseorder=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PurchaseIndent
+		TableName=PurchaseIndent
+		Description=Update -ve objid for child PurchaseIndent
+		StepNo=5
+		Input=@objid @name @PurchaseIndentid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PurchaseIndent set objid=@objid where objid=@PurchaseIndentid and name=@name
+		MssqlQuery=update table_PurchaseIndent set objid=@objid where objid=@PurchaseIndentid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PoInvoice
+		TableName=PoInvoice
+		Description=Select -ve objid for child PoInvoice
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PoInvoiceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PoInvoiceid from table_PoInvoice where objid like \'-%\' and PoInvoice2Purchaseorder=@objid
+		MssqlQuery=select objid, name ,objid PoInvoiceid from table_PoInvoice where objid like \'-%\' and PoInvoice2Purchaseorder=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PoInvoice
+		TableName=PoInvoice
+		Description=Update -ve objid for child PoInvoice
+		StepNo=7
+		Input=@objid @name @PoInvoiceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PoInvoice set objid=@objid where objid=@PoInvoiceid and name=@name
+		MssqlQuery=update table_PoInvoice set objid=@objid where objid=@PoInvoiceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Purchaseorder procedure
+		TableName=Purchaseorder
+		Description=Call Update_Purchaseorder procedure
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Purchaseorder(@objid)
+		MssqlQuery=exec Update_Purchaseorder @objid
+		Status=0
+	</ActionQuery>

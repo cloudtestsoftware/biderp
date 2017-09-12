@@ -1,0 +1,271 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Project
+//Attribute Name:Project Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Project Rule
+		TableName=Project
+		EffectedTable=JobMaster
+		Description=Calling Upadte and Insert Rule for object Project
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Project
+//Name:Call Insert_Project procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Project procedure
+		TableName=Project
+		Description=Call Insert_Project procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Project(@objid)
+		MssqlQuery=exec Insert_Project @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child JobMaster
+		TableName=JobMaster
+		Description=Select -ve objid for child JobMaster
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $JobMasterid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid JobMasterid from table_JobMaster where objid like \'-%\' and JobMaster2Project=@objid
+		MssqlQuery=select objid, name ,objid JobMasterid from table_JobMaster where objid like \'-%\' and JobMaster2Project=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child JobMaster
+		TableName=JobMaster
+		Description=Update -ve objid for child JobMaster
+		StepNo=3
+		Input=@objid @name @JobMasterid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_JobMaster set objid=@objid where objid=@JobMasterid and name=@name
+		MssqlQuery=update table_JobMaster set objid=@objid where objid=@JobMasterid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Contact
+		TableName=Contact
+		Description=Select -ve objid for child Contact
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Contactid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Contactid from table_Contact where objid like \'-%\' and Contact2Project=@objid
+		MssqlQuery=select objid, name ,objid Contactid from table_Contact where objid like \'-%\' and Contact2Project=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Contact
+		TableName=Contact
+		Description=Update -ve objid for child Contact
+		StepNo=5
+		Input=@objid @name @Contactid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Contact set objid=@objid where objid=@Contactid and name=@name
+		MssqlQuery=update table_Contact set objid=@objid where objid=@Contactid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Estimation
+		TableName=Estimation
+		Description=Select -ve objid for child Estimation
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Estimationid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Estimationid from table_Estimation where objid like \'-%\' and Estimation2Project=@objid
+		MssqlQuery=select objid, name ,objid Estimationid from table_Estimation where objid like \'-%\' and Estimation2Project=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Estimation
+		TableName=Estimation
+		Description=Update -ve objid for child Estimation
+		StepNo=7
+		Input=@objid @name @Estimationid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Estimation set objid=@objid where objid=@Estimationid and name=@name
+		MssqlQuery=update table_Estimation set objid=@objid where objid=@Estimationid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child ProjectPlan
+		TableName=ProjectPlan
+		Description=Select -ve objid for child ProjectPlan
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ProjectPlanid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ProjectPlanid from table_ProjectPlan where objid like \'-%\' and ProjectPlan2Project=@objid
+		MssqlQuery=select objid, name ,objid ProjectPlanid from table_ProjectPlan where objid like \'-%\' and ProjectPlan2Project=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ProjectPlan
+		TableName=ProjectPlan
+		Description=Update -ve objid for child ProjectPlan
+		StepNo=9
+		Input=@objid @name @ProjectPlanid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ProjectPlan set objid=@objid where objid=@ProjectPlanid and name=@name
+		MssqlQuery=update table_ProjectPlan set objid=@objid where objid=@ProjectPlanid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Budget
+		TableName=Budget
+		Description=Select -ve objid for child Budget
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Budgetid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Budgetid from table_Budget where objid like \'-%\' and Budget2Project=@objid
+		MssqlQuery=select objid, name ,objid Budgetid from table_Budget where objid like \'-%\' and Budget2Project=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Budget
+		TableName=Budget
+		Description=Update -ve objid for child Budget
+		StepNo=11
+		Input=@objid @name @Budgetid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Budget set objid=@objid where objid=@Budgetid and name=@name
+		MssqlQuery=update table_Budget set objid=@objid where objid=@Budgetid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Tax
+		TableName=Tax
+		Description=Select -ve objid for child Tax
+		StepNo=12
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Taxid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Taxid from table_Tax where objid like \'-%\' and Tax2Project=@objid
+		MssqlQuery=select objid, name ,objid Taxid from table_Tax where objid like \'-%\' and Tax2Project=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Tax
+		TableName=Tax
+		Description=Update -ve objid for child Tax
+		StepNo=13
+		Input=@objid @name @Taxid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Tax set objid=@objid where objid=@Taxid and name=@name
+		MssqlQuery=update table_Tax set objid=@objid where objid=@Taxid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PoMaster
+		TableName=PoMaster
+		Description=Select -ve objid for child PoMaster
+		StepNo=14
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PoMasterid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PoMasterid from table_PoMaster where objid like \'-%\' and PoMaster2Project=@objid
+		MssqlQuery=select objid, name ,objid PoMasterid from table_PoMaster where objid like \'-%\' and PoMaster2Project=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PoMaster
+		TableName=PoMaster
+		Description=Update -ve objid for child PoMaster
+		StepNo=15
+		Input=@objid @name @PoMasterid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PoMaster set objid=@objid where objid=@PoMasterid and name=@name
+		MssqlQuery=update table_PoMaster set objid=@objid where objid=@PoMasterid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Project procedure
+		TableName=Project
+		Description=Call Update_Project procedure
+		StepNo=16
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Project(@objid)
+		MssqlQuery=exec Update_Project @objid
+		Status=0
+	</ActionQuery>

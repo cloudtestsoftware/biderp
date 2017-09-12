@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Balancesheet
+//Attribute Name:Balancesheet Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Balancesheet Rule
+		TableName=Balancesheet
+		EffectedTable=BalanceDetails
+		Description=Calling Upadte and Insert Rule for object Balancesheet
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Balancesheet
+//Name:Call Insert_Balancesheet procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Balancesheet procedure
+		TableName=Balancesheet
+		Description=Call Insert_Balancesheet procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Balancesheet(@objid)
+		MssqlQuery=exec Insert_Balancesheet @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child BalanceDetails
+		TableName=BalanceDetails
+		Description=Select -ve objid for child BalanceDetails
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BalanceDetailsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BalanceDetailsid from table_BalanceDetails where objid like \'-%\' and BalanceDetails2Balancesheet=@objid
+		MssqlQuery=select objid, name ,objid BalanceDetailsid from table_BalanceDetails where objid like \'-%\' and BalanceDetails2Balancesheet=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BalanceDetails
+		TableName=BalanceDetails
+		Description=Update -ve objid for child BalanceDetails
+		StepNo=3
+		Input=@objid @name @BalanceDetailsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BalanceDetails set objid=@objid where objid=@BalanceDetailsid and name=@name
+		MssqlQuery=update table_BalanceDetails set objid=@objid where objid=@BalanceDetailsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Balancesheet procedure
+		TableName=Balancesheet
+		Description=Call Update_Balancesheet procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Balancesheet(@objid)
+		MssqlQuery=exec Update_Balancesheet @objid
+		Status=0
+	</ActionQuery>

@@ -1,0 +1,116 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Warehouse
+//Attribute Name:Warehouse Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Warehouse Rule
+		TableName=Warehouse
+		EffectedTable=Address
+		Description=Calling Upadte and Insert Rule for object Warehouse
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Warehouse
+//Name:Call Insert_Warehouse procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Warehouse procedure
+		TableName=Warehouse
+		Description=Call Insert_Warehouse procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Warehouse(@objid)
+		MssqlQuery=exec Insert_Warehouse @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Address
+		TableName=Address
+		Description=Select -ve objid for child Address
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Addressid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Addressid from table_Address where objid like \'-%\' and Address2Warehouse=@objid
+		MssqlQuery=select objid, name ,objid Addressid from table_Address where objid like \'-%\' and Address2Warehouse=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Address
+		TableName=Address
+		Description=Update -ve objid for child Address
+		StepNo=3
+		Input=@objid @name @Addressid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Address set objid=@objid where objid=@Addressid and name=@name
+		MssqlQuery=update table_Address set objid=@objid where objid=@Addressid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child WarehouseLine
+		TableName=WarehouseLine
+		Description=Select -ve objid for child WarehouseLine
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $WarehouseLineid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid WarehouseLineid from table_WarehouseLine where objid like \'-%\' and WarehouseLine2Warehouse=@objid
+		MssqlQuery=select objid, name ,objid WarehouseLineid from table_WarehouseLine where objid like \'-%\' and WarehouseLine2Warehouse=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child WarehouseLine
+		TableName=WarehouseLine
+		Description=Update -ve objid for child WarehouseLine
+		StepNo=5
+		Input=@objid @name @WarehouseLineid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_WarehouseLine set objid=@objid where objid=@WarehouseLineid and name=@name
+		MssqlQuery=update table_WarehouseLine set objid=@objid where objid=@WarehouseLineid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Warehouse procedure
+		TableName=Warehouse
+		Description=Call Update_Warehouse procedure
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Warehouse(@objid)
+		MssqlQuery=exec Update_Warehouse @objid
+		Status=0
+	</ActionQuery>

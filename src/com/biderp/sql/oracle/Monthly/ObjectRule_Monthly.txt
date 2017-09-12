@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Monthly
+//Attribute Name:Monthly Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Monthly Rule
+		TableName=Monthly
+		EffectedTable=Approval
+		Description=Calling Upadte and Insert Rule for object Monthly
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Monthly
+//Name:Call Insert_Monthly procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Monthly procedure
+		TableName=Monthly
+		Description=Call Insert_Monthly procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Monthly(@objid)
+		MssqlQuery=exec Insert_Monthly @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Approval
+		TableName=Approval
+		Description=Select -ve objid for child Approval
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Approvalid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Approvalid from table_Approval where objid like \'-%\' and Approval2Monthly=@objid
+		MssqlQuery=select objid, name ,objid Approvalid from table_Approval where objid like \'-%\' and Approval2Monthly=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Approval
+		TableName=Approval
+		Description=Update -ve objid for child Approval
+		StepNo=3
+		Input=@objid @name @Approvalid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Approval set objid=@objid where objid=@Approvalid and name=@name
+		MssqlQuery=update table_Approval set objid=@objid where objid=@Approvalid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Monthly procedure
+		TableName=Monthly
+		Description=Call Update_Monthly procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Monthly(@objid)
+		MssqlQuery=exec Update_Monthly @objid
+		Status=0
+	</ActionQuery>

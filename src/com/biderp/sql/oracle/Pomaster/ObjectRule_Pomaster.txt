@@ -1,0 +1,240 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Pomaster
+//Attribute Name:Pomaster Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Pomaster Rule
+		TableName=Pomaster
+		EffectedTable=PurchaseOrder
+		Description=Calling Upadte and Insert Rule for object Pomaster
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Pomaster
+//Name:Call Insert_Pomaster procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Pomaster procedure
+		TableName=Pomaster
+		Description=Call Insert_Pomaster procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Pomaster(@objid)
+		MssqlQuery=exec Insert_Pomaster @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child PurchaseOrder
+		TableName=PurchaseOrder
+		Description=Select -ve objid for child PurchaseOrder
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PurchaseOrderid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PurchaseOrderid from table_PurchaseOrder where objid like \'-%\' and PurchaseOrder2Pomaster=@objid
+		MssqlQuery=select objid, name ,objid PurchaseOrderid from table_PurchaseOrder where objid like \'-%\' and PurchaseOrder2Pomaster=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PurchaseOrder
+		TableName=PurchaseOrder
+		Description=Update -ve objid for child PurchaseOrder
+		StepNo=3
+		Input=@objid @name @PurchaseOrderid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PurchaseOrder set objid=@objid where objid=@PurchaseOrderid and name=@name
+		MssqlQuery=update table_PurchaseOrder set objid=@objid where objid=@PurchaseOrderid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child PoSupplier
+		TableName=PoSupplier
+		Description=Select -ve objid for child PoSupplier
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $PoSupplierid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid PoSupplierid from table_PoSupplier where objid like \'-%\' and PoSupplier2Pomaster=@objid
+		MssqlQuery=select objid, name ,objid PoSupplierid from table_PoSupplier where objid like \'-%\' and PoSupplier2Pomaster=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child PoSupplier
+		TableName=PoSupplier
+		Description=Update -ve objid for child PoSupplier
+		StepNo=5
+		Input=@objid @name @PoSupplierid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_PoSupplier set objid=@objid where objid=@PoSupplierid and name=@name
+		MssqlQuery=update table_PoSupplier set objid=@objid where objid=@PoSupplierid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child ResourceOrder
+		TableName=ResourceOrder
+		Description=Select -ve objid for child ResourceOrder
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ResourceOrderid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ResourceOrderid from table_ResourceOrder where objid like \'-%\' and ResourceOrder2Pomaster=@objid
+		MssqlQuery=select objid, name ,objid ResourceOrderid from table_ResourceOrder where objid like \'-%\' and ResourceOrder2Pomaster=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ResourceOrder
+		TableName=ResourceOrder
+		Description=Update -ve objid for child ResourceOrder
+		StepNo=7
+		Input=@objid @name @ResourceOrderid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ResourceOrder set objid=@objid where objid=@ResourceOrderid and name=@name
+		MssqlQuery=update table_ResourceOrder set objid=@objid where objid=@ResourceOrderid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child ResourceSupplier
+		TableName=ResourceSupplier
+		Description=Select -ve objid for child ResourceSupplier
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ResourceSupplierid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ResourceSupplierid from table_ResourceSupplier where objid like \'-%\' and ResourceSupplier2Pomaster=@objid
+		MssqlQuery=select objid, name ,objid ResourceSupplierid from table_ResourceSupplier where objid like \'-%\' and ResourceSupplier2Pomaster=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ResourceSupplier
+		TableName=ResourceSupplier
+		Description=Update -ve objid for child ResourceSupplier
+		StepNo=9
+		Input=@objid @name @ResourceSupplierid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ResourceSupplier set objid=@objid where objid=@ResourceSupplierid and name=@name
+		MssqlQuery=update table_ResourceSupplier set objid=@objid where objid=@ResourceSupplierid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child BomPurchase
+		TableName=BomPurchase
+		Description=Select -ve objid for child BomPurchase
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BomPurchaseid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BomPurchaseid from table_BomPurchase where objid like \'-%\' and BomPurchase2Pomaster=@objid
+		MssqlQuery=select objid, name ,objid BomPurchaseid from table_BomPurchase where objid like \'-%\' and BomPurchase2Pomaster=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BomPurchase
+		TableName=BomPurchase
+		Description=Update -ve objid for child BomPurchase
+		StepNo=11
+		Input=@objid @name @BomPurchaseid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BomPurchase set objid=@objid where objid=@BomPurchaseid and name=@name
+		MssqlQuery=update table_BomPurchase set objid=@objid where objid=@BomPurchaseid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child DeptPoBudget
+		TableName=DeptPoBudget
+		Description=Select -ve objid for child DeptPoBudget
+		StepNo=12
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $DeptPoBudgetid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid DeptPoBudgetid from table_DeptPoBudget where objid like \'-%\' and DeptPoBudget2Pomaster=@objid
+		MssqlQuery=select objid, name ,objid DeptPoBudgetid from table_DeptPoBudget where objid like \'-%\' and DeptPoBudget2Pomaster=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child DeptPoBudget
+		TableName=DeptPoBudget
+		Description=Update -ve objid for child DeptPoBudget
+		StepNo=13
+		Input=@objid @name @DeptPoBudgetid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_DeptPoBudget set objid=@objid where objid=@DeptPoBudgetid and name=@name
+		MssqlQuery=update table_DeptPoBudget set objid=@objid where objid=@DeptPoBudgetid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Pomaster procedure
+		TableName=Pomaster
+		Description=Call Update_Pomaster procedure
+		StepNo=14
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Pomaster(@objid)
+		MssqlQuery=exec Update_Pomaster @objid
+		Status=0
+	</ActionQuery>

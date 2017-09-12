@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Quotemaster
+//Attribute Name:Quotemaster Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Quotemaster Rule
+		TableName=Quotemaster
+		EffectedTable=QuoteJobs
+		Description=Calling Upadte and Insert Rule for object Quotemaster
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Quotemaster
+//Name:Call Insert_Quotemaster procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Quotemaster procedure
+		TableName=Quotemaster
+		Description=Call Insert_Quotemaster procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Quotemaster(@objid)
+		MssqlQuery=exec Insert_Quotemaster @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child QuoteJobs
+		TableName=QuoteJobs
+		Description=Select -ve objid for child QuoteJobs
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $QuoteJobsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid QuoteJobsid from table_QuoteJobs where objid like \'-%\' and QuoteJobs2Quotemaster=@objid
+		MssqlQuery=select objid, name ,objid QuoteJobsid from table_QuoteJobs where objid like \'-%\' and QuoteJobs2Quotemaster=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child QuoteJobs
+		TableName=QuoteJobs
+		Description=Update -ve objid for child QuoteJobs
+		StepNo=3
+		Input=@objid @name @QuoteJobsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_QuoteJobs set objid=@objid where objid=@QuoteJobsid and name=@name
+		MssqlQuery=update table_QuoteJobs set objid=@objid where objid=@QuoteJobsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Quotemaster procedure
+		TableName=Quotemaster
+		Description=Call Update_Quotemaster procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Quotemaster(@objid)
+		MssqlQuery=exec Update_Quotemaster @objid
+		Status=0
+	</ActionQuery>

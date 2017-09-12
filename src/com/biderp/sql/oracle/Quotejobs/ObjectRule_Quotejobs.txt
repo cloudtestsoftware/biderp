@@ -1,0 +1,147 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Quotejobs
+//Attribute Name:Quotejobs Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Quotejobs Rule
+		TableName=Quotejobs
+		EffectedTable=BidQuiz
+		Description=Calling Upadte and Insert Rule for object Quotejobs
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Quotejobs
+//Name:Call Insert_Quotejobs procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Quotejobs procedure
+		TableName=Quotejobs
+		Description=Call Insert_Quotejobs procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Quotejobs(@objid)
+		MssqlQuery=exec Insert_Quotejobs @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child BidQuiz
+		TableName=BidQuiz
+		Description=Select -ve objid for child BidQuiz
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BidQuizid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BidQuizid from table_BidQuiz where objid like \'-%\' and BidQuiz2Quotejobs=@objid
+		MssqlQuery=select objid, name ,objid BidQuizid from table_BidQuiz where objid like \'-%\' and BidQuiz2Quotejobs=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BidQuiz
+		TableName=BidQuiz
+		Description=Update -ve objid for child BidQuiz
+		StepNo=3
+		Input=@objid @name @BidQuizid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BidQuiz set objid=@objid where objid=@BidQuizid and name=@name
+		MssqlQuery=update table_BidQuiz set objid=@objid where objid=@BidQuizid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child QuoteParts
+		TableName=QuoteParts
+		Description=Select -ve objid for child QuoteParts
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $QuotePartsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid QuotePartsid from table_QuoteParts where objid like \'-%\' and QuoteParts2Quotejobs=@objid
+		MssqlQuery=select objid, name ,objid QuotePartsid from table_QuoteParts where objid like \'-%\' and QuoteParts2Quotejobs=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child QuoteParts
+		TableName=QuoteParts
+		Description=Update -ve objid for child QuoteParts
+		StepNo=5
+		Input=@objid @name @QuotePartsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_QuoteParts set objid=@objid where objid=@QuotePartsid and name=@name
+		MssqlQuery=update table_QuoteParts set objid=@objid where objid=@QuotePartsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child QuoteResource
+		TableName=QuoteResource
+		Description=Select -ve objid for child QuoteResource
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $QuoteResourceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid QuoteResourceid from table_QuoteResource where objid like \'-%\' and QuoteResource2Quotejobs=@objid
+		MssqlQuery=select objid, name ,objid QuoteResourceid from table_QuoteResource where objid like \'-%\' and QuoteResource2Quotejobs=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child QuoteResource
+		TableName=QuoteResource
+		Description=Update -ve objid for child QuoteResource
+		StepNo=7
+		Input=@objid @name @QuoteResourceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_QuoteResource set objid=@objid where objid=@QuoteResourceid and name=@name
+		MssqlQuery=update table_QuoteResource set objid=@objid where objid=@QuoteResourceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Quotejobs procedure
+		TableName=Quotejobs
+		Description=Call Update_Quotejobs procedure
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Quotejobs(@objid)
+		MssqlQuery=exec Update_Quotejobs @objid
+		Status=0
+	</ActionQuery>

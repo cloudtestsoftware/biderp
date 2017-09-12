@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Messagequeue
+//Attribute Name:Messagequeue Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Messagequeue Rule
+		TableName=Messagequeue
+		EffectedTable=Participants
+		Description=Calling Upadte and Insert Rule for object Messagequeue
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Messagequeue
+//Name:Call Insert_Messagequeue procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Messagequeue procedure
+		TableName=Messagequeue
+		Description=Call Insert_Messagequeue procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Messagequeue(@objid)
+		MssqlQuery=exec Insert_Messagequeue @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Participants
+		TableName=Participants
+		Description=Select -ve objid for child Participants
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Participantsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Participantsid from table_Participants where objid like \'-%\' and Participants2Messagequeue=@objid
+		MssqlQuery=select objid, name ,objid Participantsid from table_Participants where objid like \'-%\' and Participants2Messagequeue=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Participants
+		TableName=Participants
+		Description=Update -ve objid for child Participants
+		StepNo=3
+		Input=@objid @name @Participantsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Participants set objid=@objid where objid=@Participantsid and name=@name
+		MssqlQuery=update table_Participants set objid=@objid where objid=@Participantsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Messagequeue procedure
+		TableName=Messagequeue
+		Description=Call Update_Messagequeue procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Messagequeue(@objid)
+		MssqlQuery=exec Update_Messagequeue @objid
+		Status=0
+	</ActionQuery>

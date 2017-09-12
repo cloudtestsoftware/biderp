@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Benifit
+//Attribute Name:Benifit Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Benifit Rule
+		TableName=Benifit
+		EffectedTable=BenifitChange
+		Description=Calling Upadte and Insert Rule for object Benifit
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Benifit
+//Name:Call Insert_Benifit procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Benifit procedure
+		TableName=Benifit
+		Description=Call Insert_Benifit procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Benifit(@objid)
+		MssqlQuery=exec Insert_Benifit @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child BenifitChange
+		TableName=BenifitChange
+		Description=Select -ve objid for child BenifitChange
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BenifitChangeid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BenifitChangeid from table_BenifitChange where objid like \'-%\' and BenifitChange2Benifit=@objid
+		MssqlQuery=select objid, name ,objid BenifitChangeid from table_BenifitChange where objid like \'-%\' and BenifitChange2Benifit=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BenifitChange
+		TableName=BenifitChange
+		Description=Update -ve objid for child BenifitChange
+		StepNo=3
+		Input=@objid @name @BenifitChangeid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BenifitChange set objid=@objid where objid=@BenifitChangeid and name=@name
+		MssqlQuery=update table_BenifitChange set objid=@objid where objid=@BenifitChangeid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Benifit procedure
+		TableName=Benifit
+		Description=Call Update_Benifit procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Benifit(@objid)
+		MssqlQuery=exec Update_Benifit @objid
+		Status=0
+	</ActionQuery>

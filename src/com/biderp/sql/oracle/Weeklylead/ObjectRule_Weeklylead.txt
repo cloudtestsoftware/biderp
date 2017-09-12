@@ -1,0 +1,116 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Weeklylead
+//Attribute Name:Weeklylead Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Weeklylead Rule
+		TableName=Weeklylead
+		EffectedTable=WeekLeadContact
+		Description=Calling Upadte and Insert Rule for object Weeklylead
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Weeklylead
+//Name:Call Insert_Weeklylead procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Weeklylead procedure
+		TableName=Weeklylead
+		Description=Call Insert_Weeklylead procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Weeklylead(@objid)
+		MssqlQuery=exec Insert_Weeklylead @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child WeekLeadContact
+		TableName=WeekLeadContact
+		Description=Select -ve objid for child WeekLeadContact
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $WeekLeadContactid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid WeekLeadContactid from table_WeekLeadContact where objid like \'-%\' and WeekLeadContact2Weeklylead=@objid
+		MssqlQuery=select objid, name ,objid WeekLeadContactid from table_WeekLeadContact where objid like \'-%\' and WeekLeadContact2Weeklylead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child WeekLeadContact
+		TableName=WeekLeadContact
+		Description=Update -ve objid for child WeekLeadContact
+		StepNo=3
+		Input=@objid @name @WeekLeadContactid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_WeekLeadContact set objid=@objid where objid=@WeekLeadContactid and name=@name
+		MssqlQuery=update table_WeekLeadContact set objid=@objid where objid=@WeekLeadContactid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child WeekLeadJobs
+		TableName=WeekLeadJobs
+		Description=Select -ve objid for child WeekLeadJobs
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $WeekLeadJobsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid WeekLeadJobsid from table_WeekLeadJobs where objid like \'-%\' and WeekLeadJobs2Weeklylead=@objid
+		MssqlQuery=select objid, name ,objid WeekLeadJobsid from table_WeekLeadJobs where objid like \'-%\' and WeekLeadJobs2Weeklylead=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child WeekLeadJobs
+		TableName=WeekLeadJobs
+		Description=Update -ve objid for child WeekLeadJobs
+		StepNo=5
+		Input=@objid @name @WeekLeadJobsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_WeekLeadJobs set objid=@objid where objid=@WeekLeadJobsid and name=@name
+		MssqlQuery=update table_WeekLeadJobs set objid=@objid where objid=@WeekLeadJobsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Weeklylead procedure
+		TableName=Weeklylead
+		Description=Call Update_Weeklylead procedure
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Weeklylead(@objid)
+		MssqlQuery=exec Update_Weeklylead @objid
+		Status=0
+	</ActionQuery>

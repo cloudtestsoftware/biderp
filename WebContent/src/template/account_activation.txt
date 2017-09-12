@@ -1,0 +1,7 @@
+Hi There,
+
+Please click this below URL to activate your account.
+@url
+
+Thank you,
+Artitelly Account Activation Team,

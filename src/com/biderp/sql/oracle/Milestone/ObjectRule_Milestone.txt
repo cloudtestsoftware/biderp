@@ -1,0 +1,178 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Milestone
+//Attribute Name:Milestone Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Milestone Rule
+		TableName=Milestone
+		EffectedTable=TaskResource
+		Description=Calling Upadte and Insert Rule for object Milestone
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Milestone
+//Name:Call Insert_Milestone procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Milestone procedure
+		TableName=Milestone
+		Description=Call Insert_Milestone procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Milestone(@objid)
+		MssqlQuery=exec Insert_Milestone @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child TaskResource
+		TableName=TaskResource
+		Description=Select -ve objid for child TaskResource
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $TaskResourceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid TaskResourceid from table_TaskResource where objid like \'-%\' and TaskResource2Milestone=@objid
+		MssqlQuery=select objid, name ,objid TaskResourceid from table_TaskResource where objid like \'-%\' and TaskResource2Milestone=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child TaskResource
+		TableName=TaskResource
+		Description=Update -ve objid for child TaskResource
+		StepNo=3
+		Input=@objid @name @TaskResourceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_TaskResource set objid=@objid where objid=@TaskResourceid and name=@name
+		MssqlQuery=update table_TaskResource set objid=@objid where objid=@TaskResourceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child BoqPlan
+		TableName=BoqPlan
+		Description=Select -ve objid for child BoqPlan
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BoqPlanid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BoqPlanid from table_BoqPlan where objid like \'-%\' and BoqPlan2Milestone=@objid
+		MssqlQuery=select objid, name ,objid BoqPlanid from table_BoqPlan where objid like \'-%\' and BoqPlan2Milestone=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BoqPlan
+		TableName=BoqPlan
+		Description=Update -ve objid for child BoqPlan
+		StepNo=5
+		Input=@objid @name @BoqPlanid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BoqPlan set objid=@objid where objid=@BoqPlanid and name=@name
+		MssqlQuery=update table_BoqPlan set objid=@objid where objid=@BoqPlanid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child MSLink
+		TableName=MSLink
+		Description=Select -ve objid for child MSLink
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $MSLinkid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid MSLinkid from table_MSLink where objid like \'-%\' and MSLink2Milestone=@objid
+		MssqlQuery=select objid, name ,objid MSLinkid from table_MSLink where objid like \'-%\' and MSLink2Milestone=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child MSLink
+		TableName=MSLink
+		Description=Update -ve objid for child MSLink
+		StepNo=7
+		Input=@objid @name @MSLinkid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_MSLink set objid=@objid where objid=@MSLinkid and name=@name
+		MssqlQuery=update table_MSLink set objid=@objid where objid=@MSLinkid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child WhatToDo
+		TableName=WhatToDo
+		Description=Select -ve objid for child WhatToDo
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $WhatToDoid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid WhatToDoid from table_WhatToDo where objid like \'-%\' and WhatToDo2Milestone=@objid
+		MssqlQuery=select objid, name ,objid WhatToDoid from table_WhatToDo where objid like \'-%\' and WhatToDo2Milestone=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child WhatToDo
+		TableName=WhatToDo
+		Description=Update -ve objid for child WhatToDo
+		StepNo=9
+		Input=@objid @name @WhatToDoid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_WhatToDo set objid=@objid where objid=@WhatToDoid and name=@name
+		MssqlQuery=update table_WhatToDo set objid=@objid where objid=@WhatToDoid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Milestone procedure
+		TableName=Milestone
+		Description=Call Update_Milestone procedure
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Milestone(@objid)
+		MssqlQuery=exec Update_Milestone @objid
+		Status=0
+	</ActionQuery>

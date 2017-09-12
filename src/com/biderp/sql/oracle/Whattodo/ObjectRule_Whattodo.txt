@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Whattodo
+//Attribute Name:Whattodo Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Whattodo Rule
+		TableName=Whattodo
+		EffectedTable=LogNote
+		Description=Calling Upadte and Insert Rule for object Whattodo
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Whattodo
+//Name:Call Insert_Whattodo procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Whattodo procedure
+		TableName=Whattodo
+		Description=Call Insert_Whattodo procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Whattodo(@objid)
+		MssqlQuery=exec Insert_Whattodo @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child LogNote
+		TableName=LogNote
+		Description=Select -ve objid for child LogNote
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LogNoteid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LogNoteid from table_LogNote where objid like \'-%\' and LogNote2Whattodo=@objid
+		MssqlQuery=select objid, name ,objid LogNoteid from table_LogNote where objid like \'-%\' and LogNote2Whattodo=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LogNote
+		TableName=LogNote
+		Description=Update -ve objid for child LogNote
+		StepNo=3
+		Input=@objid @name @LogNoteid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LogNote set objid=@objid where objid=@LogNoteid and name=@name
+		MssqlQuery=update table_LogNote set objid=@objid where objid=@LogNoteid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Whattodo procedure
+		TableName=Whattodo
+		Description=Call Update_Whattodo procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Whattodo(@objid)
+		MssqlQuery=exec Update_Whattodo @objid
+		Status=0
+	</ActionQuery>

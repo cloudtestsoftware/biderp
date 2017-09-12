@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Taskresource
+//Attribute Name:Taskresource Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Taskresource Rule
+		TableName=Taskresource
+		EffectedTable=TimeSheet
+		Description=Calling Upadte and Insert Rule for object Taskresource
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Taskresource
+//Name:Call Insert_Taskresource procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Taskresource procedure
+		TableName=Taskresource
+		Description=Call Insert_Taskresource procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Taskresource(@objid)
+		MssqlQuery=exec Insert_Taskresource @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child TimeSheet
+		TableName=TimeSheet
+		Description=Select -ve objid for child TimeSheet
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $TimeSheetid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid TimeSheetid from table_TimeSheet where objid like \'-%\' and TimeSheet2Taskresource=@objid
+		MssqlQuery=select objid, name ,objid TimeSheetid from table_TimeSheet where objid like \'-%\' and TimeSheet2Taskresource=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child TimeSheet
+		TableName=TimeSheet
+		Description=Update -ve objid for child TimeSheet
+		StepNo=3
+		Input=@objid @name @TimeSheetid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_TimeSheet set objid=@objid where objid=@TimeSheetid and name=@name
+		MssqlQuery=update table_TimeSheet set objid=@objid where objid=@TimeSheetid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Taskresource procedure
+		TableName=Taskresource
+		Description=Call Update_Taskresource procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Taskresource(@objid)
+		MssqlQuery=exec Update_Taskresource @objid
+		Status=0
+	</ActionQuery>

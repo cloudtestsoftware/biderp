@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Bidproject
+//Attribute Name:Bidproject Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Bidproject Rule
+		TableName=Bidproject
+		EffectedTable=BidNote
+		Description=Calling Upadte and Insert Rule for object Bidproject
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Bidproject
+//Name:Call Insert_Bidproject procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Bidproject procedure
+		TableName=Bidproject
+		Description=Call Insert_Bidproject procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Bidproject(@objid)
+		MssqlQuery=exec Insert_Bidproject @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child BidNote
+		TableName=BidNote
+		Description=Select -ve objid for child BidNote
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $BidNoteid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid BidNoteid from table_BidNote where objid like \'-%\' and BidNote2Bidproject=@objid
+		MssqlQuery=select objid, name ,objid BidNoteid from table_BidNote where objid like \'-%\' and BidNote2Bidproject=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child BidNote
+		TableName=BidNote
+		Description=Update -ve objid for child BidNote
+		StepNo=3
+		Input=@objid @name @BidNoteid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_BidNote set objid=@objid where objid=@BidNoteid and name=@name
+		MssqlQuery=update table_BidNote set objid=@objid where objid=@BidNoteid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Bidproject procedure
+		TableName=Bidproject
+		Description=Call Update_Bidproject procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Bidproject(@objid)
+		MssqlQuery=exec Update_Bidproject @objid
+		Status=0
+	</ActionQuery>

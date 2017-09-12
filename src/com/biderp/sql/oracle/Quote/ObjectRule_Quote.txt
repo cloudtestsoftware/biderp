@@ -1,0 +1,116 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Quote
+//Attribute Name:Quote Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Quote Rule
+		TableName=Quote
+		EffectedTable=QuoteMaster
+		Description=Calling Upadte and Insert Rule for object Quote
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Quote
+//Name:Call Insert_Quote procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Quote procedure
+		TableName=Quote
+		Description=Call Insert_Quote procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Quote(@objid)
+		MssqlQuery=exec Insert_Quote @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child QuoteMaster
+		TableName=QuoteMaster
+		Description=Select -ve objid for child QuoteMaster
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $QuoteMasterid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid QuoteMasterid from table_QuoteMaster where objid like \'-%\' and QuoteMaster2Quote=@objid
+		MssqlQuery=select objid, name ,objid QuoteMasterid from table_QuoteMaster where objid like \'-%\' and QuoteMaster2Quote=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child QuoteMaster
+		TableName=QuoteMaster
+		Description=Update -ve objid for child QuoteMaster
+		StepNo=3
+		Input=@objid @name @QuoteMasterid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_QuoteMaster set objid=@objid where objid=@QuoteMasterid and name=@name
+		MssqlQuery=update table_QuoteMaster set objid=@objid where objid=@QuoteMasterid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child QuoteLog
+		TableName=QuoteLog
+		Description=Select -ve objid for child QuoteLog
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $QuoteLogid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid QuoteLogid from table_QuoteLog where objid like \'-%\' and QuoteLog2Quote=@objid
+		MssqlQuery=select objid, name ,objid QuoteLogid from table_QuoteLog where objid like \'-%\' and QuoteLog2Quote=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child QuoteLog
+		TableName=QuoteLog
+		Description=Update -ve objid for child QuoteLog
+		StepNo=5
+		Input=@objid @name @QuoteLogid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_QuoteLog set objid=@objid where objid=@QuoteLogid and name=@name
+		MssqlQuery=update table_QuoteLog set objid=@objid where objid=@QuoteLogid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Quote procedure
+		TableName=Quote
+		Description=Call Update_Quote procedure
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Quote(@objid)
+		MssqlQuery=exec Update_Quote @objid
+		Status=0
+	</ActionQuery>

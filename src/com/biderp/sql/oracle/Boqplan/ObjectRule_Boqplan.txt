@@ -1,0 +1,147 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Boqplan
+//Attribute Name:Boqplan Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Boqplan Rule
+		TableName=Boqplan
+		EffectedTable=Material
+		Description=Calling Upadte and Insert Rule for object Boqplan
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Boqplan
+//Name:Call Insert_Boqplan procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Boqplan procedure
+		TableName=Boqplan
+		Description=Call Insert_Boqplan procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Boqplan(@objid)
+		MssqlQuery=exec Insert_Boqplan @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Material
+		TableName=Material
+		Description=Select -ve objid for child Material
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Materialid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Materialid from table_Material where objid like \'-%\' and Material2Boqplan=@objid
+		MssqlQuery=select objid, name ,objid Materialid from table_Material where objid like \'-%\' and Material2Boqplan=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Material
+		TableName=Material
+		Description=Update -ve objid for child Material
+		StepNo=3
+		Input=@objid @name @Materialid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Material set objid=@objid where objid=@Materialid and name=@name
+		MssqlQuery=update table_Material set objid=@objid where objid=@Materialid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child ResourceAudit
+		TableName=ResourceAudit
+		Description=Select -ve objid for child ResourceAudit
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $ResourceAuditid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid ResourceAuditid from table_ResourceAudit where objid like \'-%\' and ResourceAudit2Boqplan=@objid
+		MssqlQuery=select objid, name ,objid ResourceAuditid from table_ResourceAudit where objid like \'-%\' and ResourceAudit2Boqplan=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child ResourceAudit
+		TableName=ResourceAudit
+		Description=Update -ve objid for child ResourceAudit
+		StepNo=5
+		Input=@objid @name @ResourceAuditid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_ResourceAudit set objid=@objid where objid=@ResourceAuditid and name=@name
+		MssqlQuery=update table_ResourceAudit set objid=@objid where objid=@ResourceAuditid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Inspection
+		TableName=Inspection
+		Description=Select -ve objid for child Inspection
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Inspectionid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Inspectionid from table_Inspection where objid like \'-%\' and Inspection2Boqplan=@objid
+		MssqlQuery=select objid, name ,objid Inspectionid from table_Inspection where objid like \'-%\' and Inspection2Boqplan=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Inspection
+		TableName=Inspection
+		Description=Update -ve objid for child Inspection
+		StepNo=7
+		Input=@objid @name @Inspectionid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Inspection set objid=@objid where objid=@Inspectionid and name=@name
+		MssqlQuery=update table_Inspection set objid=@objid where objid=@Inspectionid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Boqplan procedure
+		TableName=Boqplan
+		Description=Call Update_Boqplan procedure
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Boqplan(@objid)
+		MssqlQuery=exec Update_Boqplan @objid
+		Status=0
+	</ActionQuery>

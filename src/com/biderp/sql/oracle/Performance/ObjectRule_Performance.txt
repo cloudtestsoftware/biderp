@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Performance
+//Attribute Name:Performance Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Performance Rule
+		TableName=Performance
+		EffectedTable=Participants
+		Description=Calling Upadte and Insert Rule for object Performance
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Performance
+//Name:Call Insert_Performance procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Performance procedure
+		TableName=Performance
+		Description=Call Insert_Performance procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Performance(@objid)
+		MssqlQuery=exec Insert_Performance @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Participants
+		TableName=Participants
+		Description=Select -ve objid for child Participants
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Participantsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Participantsid from table_Participants where objid like \'-%\' and Participants2Performance=@objid
+		MssqlQuery=select objid, name ,objid Participantsid from table_Participants where objid like \'-%\' and Participants2Performance=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Participants
+		TableName=Participants
+		Description=Update -ve objid for child Participants
+		StepNo=3
+		Input=@objid @name @Participantsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Participants set objid=@objid where objid=@Participantsid and name=@name
+		MssqlQuery=update table_Participants set objid=@objid where objid=@Participantsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Performance procedure
+		TableName=Performance
+		Description=Call Update_Performance procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Performance(@objid)
+		MssqlQuery=exec Update_Performance @objid
+		Status=0
+	</ActionQuery>

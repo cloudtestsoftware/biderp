@@ -1,0 +1,178 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Change
+//Attribute Name:Change Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Change Rule
+		TableName=Change
+		EffectedTable=LogNote
+		Description=Calling Upadte and Insert Rule for object Change
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Change
+//Name:Call Insert_Change procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Change procedure
+		TableName=Change
+		Description=Call Insert_Change procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Change(@objid)
+		MssqlQuery=exec Insert_Change @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child LogNote
+		TableName=LogNote
+		Description=Select -ve objid for child LogNote
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $LogNoteid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid LogNoteid from table_LogNote where objid like \'-%\' and LogNote2Change=@objid
+		MssqlQuery=select objid, name ,objid LogNoteid from table_LogNote where objid like \'-%\' and LogNote2Change=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child LogNote
+		TableName=LogNote
+		Description=Update -ve objid for child LogNote
+		StepNo=3
+		Input=@objid @name @LogNoteid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_LogNote set objid=@objid where objid=@LogNoteid and name=@name
+		MssqlQuery=update table_LogNote set objid=@objid where objid=@LogNoteid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child Parts
+		TableName=Parts
+		Description=Select -ve objid for child Parts
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Partsid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Partsid from table_Parts where objid like \'-%\' and Parts2Change=@objid
+		MssqlQuery=select objid, name ,objid Partsid from table_Parts where objid like \'-%\' and Parts2Change=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Parts
+		TableName=Parts
+		Description=Update -ve objid for child Parts
+		StepNo=5
+		Input=@objid @name @Partsid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Parts set objid=@objid where objid=@Partsid and name=@name
+		MssqlQuery=update table_Parts set objid=@objid where objid=@Partsid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child TaskResource
+		TableName=TaskResource
+		Description=Select -ve objid for child TaskResource
+		StepNo=6
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $TaskResourceid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid TaskResourceid from table_TaskResource where objid like \'-%\' and TaskResource2Change=@objid
+		MssqlQuery=select objid, name ,objid TaskResourceid from table_TaskResource where objid like \'-%\' and TaskResource2Change=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child TaskResource
+		TableName=TaskResource
+		Description=Update -ve objid for child TaskResource
+		StepNo=7
+		Input=@objid @name @TaskResourceid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_TaskResource set objid=@objid where objid=@TaskResourceid and name=@name
+		MssqlQuery=update table_TaskResource set objid=@objid where objid=@TaskResourceid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Select -ve objid for child WhatToDo
+		TableName=WhatToDo
+		Description=Select -ve objid for child WhatToDo
+		StepNo=8
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $WhatToDoid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid WhatToDoid from table_WhatToDo where objid like \'-%\' and WhatToDo2Change=@objid
+		MssqlQuery=select objid, name ,objid WhatToDoid from table_WhatToDo where objid like \'-%\' and WhatToDo2Change=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child WhatToDo
+		TableName=WhatToDo
+		Description=Update -ve objid for child WhatToDo
+		StepNo=9
+		Input=@objid @name @WhatToDoid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_WhatToDo set objid=@objid where objid=@WhatToDoid and name=@name
+		MssqlQuery=update table_WhatToDo set objid=@objid where objid=@WhatToDoid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Change procedure
+		TableName=Change
+		Description=Call Update_Change procedure
+		StepNo=10
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Change(@objid)
+		MssqlQuery=exec Update_Change @objid
+		Status=0
+	</ActionQuery>

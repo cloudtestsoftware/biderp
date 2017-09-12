@@ -1,0 +1,85 @@
+//*****************************************************************//
+//Adding Object Rule
+//Table Name:Estimation
+//Attribute Name:Estimation Rule
+//********************************************************************//
+
+	<ObjectRule>
+		Name=Estimation Rule
+		TableName=Estimation
+		EffectedTable=Boq
+		Description=Calling Upadte and Insert Rule for object Estimation
+		Reason=1
+		ActionState=1
+		Condition=objid$gt$0
+		RuleIndex=1
+		Status=1
+	</ObjectRule>
+
+//*****************************************************************//
+//Adding Action Query
+//Table Name:Estimation
+//Name:Call Insert_Estimation procedure
+//Step No:1
+//**************************************************************//
+
+	<ActionQuery>
+		Name=Call Insert_Estimation procedure
+		TableName=Estimation
+		Description=Call Insert_Estimation procedure
+		StepNo=1
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Insert_Estimation(@objid)
+		MssqlQuery=exec Insert_Estimation @objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Select -ve objid for child Boq
+		TableName=Boq
+		Description=Select -ve objid for child Boq
+		StepNo=2
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$objid $name $Boqid
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=select objid, name ,objid Boqid from table_Boq where objid like \'-%\' and Boq2Estimation=@objid
+		MssqlQuery=select objid, name ,objid Boqid from table_Boq where objid like \'-%\' and Boq2Estimation=@objid
+		Status=0
+	</ActionQuery>
+
+	<ActionQuery>
+		Name=Update -ve objid for child Boq
+		TableName=Boq
+		Description=Update -ve objid for child Boq
+		StepNo=3
+		Input=@objid @name @Boqid
+		InputDataType=@Integer @Varchar @Integer
+		Output=$count
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=update table_Boq set objid=@objid where objid=@Boqid and name=@name
+		MssqlQuery=update table_Boq set objid=@objid where objid=@Boqid and name=@name
+		Status=0
+	</ActionQuery>
+
+
+	<ActionQuery>
+		Name=Call Upadte_Estimation procedure
+		TableName=Estimation
+		Description=Call Update_Estimation procedure
+		StepNo=4
+		Input=@Objid
+		InputDataType=@Integer
+		Output=$activityId
+		QueryType=0
+		HasRecordSet=0
+		OracleQuery=exec Update_Estimation(@objid)
+		MssqlQuery=exec Update_Estimation @objid
+		Status=0
+	</ActionQuery>
